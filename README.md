@@ -1,7 +1,7 @@
-# Aeterna
+# Un Dernier Message
 
 <p align="center">
-  <img src="assets/hero.png" alt="Aeterna Logo" width="600">
+  <img src="assets/hero.png" alt="Un Dernier Message" width="600">
 </p>
 
 <p align="center">
@@ -10,323 +10,223 @@
   <img src="https://img.shields.io/badge/SQLite-003B57?style=flat-square&logo=sqlite&logoColor=white" alt="SQLite">
   <img src="https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=docker&logoColor=white" alt="Docker">
   <img src="https://img.shields.io/badge/License-GPL--3.0-blue?style=flat-square" alt="GPL-3.0 License">
+  <img src="https://img.shields.io/badge/i18n-8%20langues-green?style=flat-square" alt="8 langues">
 </p>
-
-## Table of Contents
-- [Key Features](#key-features)
-- [Screenshots](#screenshots)
-- [Quick Start](#quick-start)
-- [Management](#management)
-- [Configuration](#configuration)
-- [Reverse Proxy Templates](#reverse-proxy-templates)
-- [Security](#security)
-- [Architecture](#architecture)
-- [Project Structure](#project-structure)
-- [Disclaimer](#disclaimer)
-- [Support](#support)
-- [License](#license)
-
-
-*"What words would you leave behind?"*
 
 ---
 
-Aeterna is a dead man's switch. You write messages. You check in regularly. If you stop checking in, your messages are delivered.
+## 🇫🇷 Présentation
 
-It's that simple. And that important.
+**Un Dernier Message** est un fork du projet open source [Aeterna](https://github.com/alpyxn/aeterna), réalisé par [Cédric Locqueneux](https://github.com/cedriclocqueneux) pour ajouter le support multilingue (notamment le français), un thème clair/sombre, et adapter le projet à un usage grand public francophone.
 
-Aeterna holds these words. It watches. It waits. And when the time comes, it delivers.
+Il s'agit d'un *dead man's switch* — un interrupteur d'homme mort numérique : vous rédigez des messages importants (accès à des comptes, cryptos, instructions, lettres d'adieu…), et si vous cessez de vous signaler régulièrement, ces messages sont automatiquement envoyés à vos proches.
 
-## Key Features
+Ce fork est hébergé sur [un-dernier-message.fr](https://un-dernier-message.fr) en version gratuite pour les utilisateurs. Pour ceux qui souhaitent maîtriser totalement leurs données, l'auto-hébergement est entièrement documenté ci-dessous.
 
-- **Email Delivery**: Automatic delivery of your messages and files to your loved ones if you fail to check in.
-- **Webhook Integration**: Trigger external services (home automation, custom scripts, etc.) when your switch is activated.
-- **File Attachments**: Securely attach sensitive documents, photos, or instructions to your switches.
-- **Auto-Cleanup**: Attachments are automatically deleted from the server immediately after delivery for maximum privacy.
-- **One-Click Install**: Comprehensive installation wizard.
-- **Heartbeat System**: Simple check-in mechanism via web UI or a quick-link from your email.
-- **Privacy-Focused Architecture**: Messages and attachments are encrypted at rest (AES-256-GCM) on your private server, ensuring they are only decrypted at the moment of delivery.
+---
 
-## Screenshots
+> Fork of [Aeterna](https://github.com/alpyxn/aeterna) — Self-hosted dead man's switch, multilingual, with light/dark theme.
 
-<p align="center">
-  <table>
-    <tr>
-      <td align="center" style="padding: 12px;">
-        <a href="assets/screenshots/dashboard.png" target="_blank">
-          <img src="assets/screenshots/dashboard.png" alt="Dashboard" width="280">
-        </a><br><sub><b>Dashboard</b></sub>
-      </td>
-      <td align="center" style="padding: 12px;">
-        <a href="assets/screenshots/creatingswitch.png" target="_blank">
-          <img src="assets/screenshots/creatingswitch.png" alt="Creating a Switch" width="280">
-        </a><br><sub><b>Creating a Switch</b></sub>
-      </td>
-      <td align="center" style="padding: 12px;">
-        <a href="assets/screenshots/settings.png" target="_blank">
-          <img src="assets/screenshots/settings.png" alt="Settings" width="280">
-        </a><br><sub><b>Settings</b></sub>
-      </td>
-    </tr>
-  </table>
-</p>
+**Un Dernier Message** is a dead man's switch application: write your messages, check in regularly, and if you stop, your messages are automatically delivered to your loved ones.
 
+---
 
+## Table des matières
 
-## Quick Start
+- [Fonctionnalités](#fonctionnalités)
+- [Langues supportées](#langues-supportées)
+- [Installation rapide](#installation-rapide)
+- [Installation manuelle](#installation-manuelle)
+- [Configuration](#configuration)
+- [Gestion](#gestion)
+- [Sécurité](#sécurité)
+- [Différences avec Aeterna](#différences-avec-aeterna)
+- [Licence](#licence)
+
+---
+
+## Fonctionnalités
+
+### Dead man's switch
+- ✉️ **Envoi automatique** — Si vous ne signalez plus votre présence, vos messages partent
+- 💓 **Heartbeat par lien email** — Un simple clic dans l'email de rappel suffit, sans connexion au site
+- ⏱️ **Délais configurables** — De 1 minute (test) à 1 an
+- 🔔 **Rappels avant déclenchement** — Plusieurs niveaux d'alerte (12h, 1 jour, 3 jours…)
+- 📎 **Pièces jointes chiffrées** — Supprimées automatiquement après livraison
+- 💌 **Lettres d'adieu** — Messages personnalisés avec délai d'envoi après déclenchement
+- 🔗 **Webhooks** — Déclenchez des actions externes (scripts, domotique, API…)
+
+### Interface
+- 🌍 **Multilingue** — Interface et emails disponibles en 8 langues
+- 🌓 **Thème clair/sombre/auto** — Suit la préférence système ou l'heure de la journée
+- 📱 **Responsive** — Fonctionne sur mobile et desktop
+
+### Sécurité & confidentialité
+- 🔒 **Chiffrement AES-256-GCM** — Messages et pièces jointes chiffrés au repos
+- 🏠 **Auto-hébergé** — Vos données ne quittent pas votre serveur
+- 🐳 **Docker** — Déploiement simple et reproductible
+
+---
+
+## Langues supportées
+
+| Langue | Interface | Emails |
+|--------|-----------|--------|
+| 🇫🇷 Français | ✅ | ✅ |
+| 🇬🇧 English | ✅ | ✅ |
+| 🇩🇪 Deutsch | ✅ | ✅ |
+| 🇪🇸 Español | ✅ | ✅ |
+| 🇵🇹 Português | ✅ | ✅ |
+| 🇮🇹 Italiano | ✅ | ✅ |
+| 🇳🇱 Nederlands | ✅ | ✅ |
+| 🇵🇱 Polski | ✅ | ✅ |
+
+La langue des emails est configurable par utilisateur dans **Paramètres → Langue des emails**. La langue de l'interface suit la préférence du navigateur ou le sélecteur en haut à droite.
+
+---
+
+## Installation rapide
 
 ```bash
-git clone https://github.com/alpyxn/aeterna.git
+git clone https://github.com/cedriclocqueneux/aeterna.git
 cd aeterna
 ./install.sh
 ```
 
-### Manual Installation
-
-If you prefer not to use the automated installation script, you can deploy Aeterna directly with our published Docker images.
-
-#### Docker Compose (Published Images)
-
-1. **Create a new folder and move into it:**
-   ```bash
-   mkdir -p aeterna && cd aeterna
-   ```
-
-2. **Create required directories and encryption key:**
-   ```bash
-   mkdir -p data secrets
-   openssl rand -base64 32 | tr -d '\n' > secrets/encryption_key
-   chmod 600 secrets/encryption_key
-   # Optional now, required when DB_ENCRYPTION_ENABLED=true and file doesn't exist:
-   # openssl rand -hex 32 | tr -d '\n' > secrets/db_kdf_context
-   # chmod 600 secrets/db_kdf_context
-   ```
-
-3. **Create `.env`:**
-   ```bash
-   SERVER_IP="$(curl -4fsS ifconfig.me || curl -4fsS icanhazip.com || true)"
-   if [ -z "$SERVER_IP" ]; then
-     echo "Could not detect public IPv4 automatically. Set SERVER_IP manually." >&2
-     exit 1
-   fi
-
-   cat > .env <<EOF
-   # Use your public domain (recommended) or server IP
-   DOMAIN=${SERVER_IP}
-   ENV=production
-   VITE_API_URL=/api
-   DB_ENCRYPTION_ENABLED=false
-   DB_ENCRYPTION_AUTO_MIGRATE=true
-   # Fixed path, do not change:
-   DB_ENCRYPTION_KDF_CONTEXT_FILE=./secrets/db_kdf_context
-   # Must match exactly what you open in the browser
-   ALLOWED_ORIGINS=http://${SERVER_IP}:5000,http://localhost:5000,http://127.0.0.1:5000
-   BASE_URL=http://${SERVER_IP}:5000
-   PROXY_MODE=simple
-   EOF
-   ```
-
-  Notes:
-  - If you use a domain, set:
-    - `ALLOWED_ORIGINS=https://your-domain`
-    - `BASE_URL=https://your-domain`
-  - `ALLOWED_ORIGINS` must include the exact origin shown in your browser address bar (scheme + host + port).
-
-
-4. **Create `docker-compose.yml` using package images:**
-   ```yaml
-   services:
-     backend:
-       image: ghcr.io/alpyxn/aeterna-backend:main
-       env_file:
-         - .env
-       environment:
-         - DATABASE_PATH=/app/data/aeterna.db
-         - ENV=production
-         - ALLOWED_ORIGINS=${ALLOWED_ORIGINS:-*}
-         - BASE_URL=${BASE_URL:-http://${DOMAIN}:5000}
-       command: ["./main", "--encryption-key-file=/run/secrets/encryption_key"]
-       secrets:
-         - encryption_key
-       volumes:
-         - ./data:/app/data
-         - ./secrets:/app/secrets
-       restart: always
-       networks:
-         - aeterna-net
-
-     frontend:
-       image: ghcr.io/alpyxn/aeterna-frontend:main
-       depends_on:
-         - backend
-       restart: always
-       networks:
-         - aeterna-net
-
-     proxy:
-       image: nginx:alpine
-       ports:
-         - "5000:80"
-       volumes:
-         - ./proxy-simple.conf:/etc/nginx/conf.d/default.conf:ro
-       depends_on:
-         - backend
-         - frontend
-       restart: always
-       networks:
-         - aeterna-net
-
-   secrets:
-     encryption_key:
-       file: ./secrets/encryption_key
-
-   networks:
-     aeterna-net:
-       driver: bridge
-   ```
-
-5. **Create `proxy-simple.conf`:**
-   ```nginx
-   server {
-       listen 80;
-       server_name localhost;
-
-       resolver 127.0.0.11 valid=30s;
-       set $backend_upstream http://backend:3000;
-
-       location / {
-           proxy_pass http://frontend:80;
-           proxy_http_version 1.1;
-           proxy_set_header Host $host;
-           proxy_set_header X-Real-IP $remote_addr;
-           proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-           proxy_set_header X-Forwarded-Proto $scheme;
-       }
-
-       location /api/ {
-           proxy_pass $backend_upstream;
-           proxy_http_version 1.1;
-           proxy_set_header Host $host;
-           proxy_set_header X-Real-IP $remote_addr;
-           proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-           proxy_set_header X-Forwarded-Proto $scheme;
-       }
-   }
-   ```
-
-6. **Start the stack:**
-   ```bash
-   docker compose up -d
-   ```
-
-7. **Open Aeterna:**
-   - http://localhost:5000
-
-If you prefer Docker Hub, replace image names with:
-- `docker.io/alpyxn/aeterna-backend:main`
-- `docker.io/alpyxn/aeterna-frontend:main`
-
-### Installation Modes
-
-During installation, you will be prompted to choose a mode:
-
-1. **Production (Reverse Proxy + SSL)** - *Recommended*
-   - Specifically configured to work with Nginx and Let's Encrypt automatically via the script.
-   - You can also adapt this for Caddy, Apache, or Traefik.
-   - Secure headers and configuration
-
-2. **Development (Simple)** - *Not Recommended for Production*
-   - Runs directly on port 5000 (IP address only)
-   - **No encryption/SSL** - insecure for sensitive data
-   - Useful only for local testing or development
-
-## Management
-
-The `install.sh` script includes management commands:
-
-| Command | Description |
-|---------|-------------|
-| `./install.sh --update` | Update to the latest version |
-| `./install.sh --backup` | Create a full backup of data and config |
-| `./install.sh --status` | Check service health and status |
-| `./install.sh --uninstall` | Remove containers and installation |
-
-## Configuration
-
-The installer guides you through basic configuration:
-- **Domain**: Your domain name (required for SSL)
-- **Encryption**: Automatically generates a unique AES-256 key
-
-**SMTP Settings** (required for sending emails) are configured post-installation through the application's **Settings** menu. This allows for live testing and easier management.
-
-## Reverse Proxy Templates
-
-Ready-to-use examples for **Nginx**, **Traefik**, and **Caddy** are available in:
-
-- [`docs/proxy-templates.md`](docs/proxy-templates.md)
-
-This document also includes required `.env` values (`ALLOWED_ORIGINS`, `BASE_URL`) and deployment notes.
-
-
-
-## Security
-
-Aeterna handles security automatically:
-- **Encryption**: Messages and file attachments are encrypted at rest using AES-256-GCM.
-- **Key Management**: The encryption key is generated securely and stored in `secrets/encryption_key`. It is **never** exposed in environment variables or configuration files.
-- **SQLite Encryption (Optional)**: When `DB_ENCRYPTION_ENABLED=true`, Aeterna can encrypt the full SQLite file and auto-migrate plain/encrypted modes (`DB_ENCRYPTION_AUTO_MIGRATE=true`).
-- **DB KDF Context**: A stable KDF context file is stored at fixed path `secrets/db_kdf_context` (created once, reused on next starts) to derive the SQLite encryption key safely from the master key.
-- **Data Pruning**: File attachments are permanently deleted from the disk after successful delivery to the recipient.
-- **SSL**: Automatic certificate management via Let's Encrypt (in Production mode).
-
-## Architecture
-
-```
-backend/     Go API server
-frontend/    React application  
-```
-
-Both components can run in Docker containers or natively. SQLite is used for storage (single file database). You can use **any reverse proxy** (proxy, caddy, apache) to serve them together and provide SSL.
-
-## Project Structure
-
-```bash
-.
-├── assets/             # Images and design assets
-├── backend/            # Go source code
-│   ├── cmd/            # Entry points (main.go)
-│   └── internal/       # Core business logic, handlers, and services
-├── frontend/           # React frontend source
-│   ├── src/            # Components, pages, and hooks
-│   └── public/         # Static assets for the web
-├── secrets/            # Encryption keys (ignored by git)
-├── docker-compose.*    # Deployment various configurations
-└── install.sh          # Automated installation script
-```
-
-
-## Disclaimer
-
-Aeterna deals with sensitive data and high-stakes outcomes (automated delivery if you stop checking in). **Read the full [disclaimer](disclaimer.md)** for limitations of liability, your responsibilities for deployment and compliance, and what the software does not guarantee.
-
-## Support
-
-💖 Support the Project
-
-If you find this project useful, consider supporting its development. Every contribution is greatly appreciated!
-
-| Asset | Network | Address |
-| --- | --- | --- |
-| **Bitcoin (BTC)** | Bitcoin | `bc1qtusxvc2agmvz88f5h7avznvrqmgl50tewj7h3u` |
-| **Solana (SOL)** | Solana | `7bJdCSZN8FUDXXUWDWkxjtS5oM6DGah8PQsXv1XomgWf` |
-| **USDT** | ERC-20 / BEP-20 | `0x5102Ca44De2dF3c1f6711a70076EAa3e5f0fD1c8` |
-| **Monero (XMR)** | Monero | `87U6EcarbbWUkVh15DeGSjEVkrhprbGR9ieAzHpYDivVi2WJK64sUWDDSpdqH5UFdDcpKgkXShTvVAFAbPJ4f7YYFvgaAku` |
-
-
-## License
-
-GPL-3.0
+L'assistant configure automatiquement les clés de chiffrement, le reverse proxy et Docker.
 
 ---
 
-*Named for the Latin word meaning "eternal" — because some messages are meant to outlast us.*
+## Installation manuelle
+
+### 1. Cloner le dépôt
+
+```bash
+git clone https://github.com/cedriclocqueneux/aeterna.git
+cd aeterna
+```
+
+### 2. Générer la clé de chiffrement
+
+```bash
+mkdir -p data secrets
+openssl rand -base64 32 | tr -d '\n' > secrets/encryption_key
+chmod 600 secrets/encryption_key
+```
+
+### 3. Créer le fichier `.env`
+
+```env
+ENV=production
+DATABASE_PATH=./data/aeterna.db
+DB_ENCRYPTION_ENABLED=false
+DB_ENCRYPTION_AUTO_MIGRATE=true
+DB_ENCRYPTION_KDF_CONTEXT_FILE=./secrets/db_kdf_context
+ALLOWED_ORIGINS=https://votre-domaine.fr
+BASE_URL=https://votre-domaine.fr
+AUTH_SESSION_TTL_HOURS=12
+ALLOW_REGISTRATION=false
+PROXY_MODE=simple
+DOMAIN=votre-domaine.fr
+VITE_API_URL=/api
+```
+
+### 4. Lancer les conteneurs
+
+```bash
+docker compose -f docker-compose.simple.yml up -d --build
+```
+
+L'application est accessible sur le **port 5000**.
+
+### 5. Configurer le SMTP
+
+Après le premier lancement, connectez-vous et allez dans **Paramètres** pour configurer votre serveur SMTP. Des guides préconfigurés sont disponibles pour Gmail, Brevo, Mailgun, SendGrid, Outlook, Yandex et Zoho.
+
+---
+
+## Configuration
+
+### Variables d'environnement
+
+| Variable | Description | Défaut |
+|----------|-------------|--------|
+| `ENV` | `production` ou `development` | `development` |
+| `DATABASE_PATH` | Chemin vers la base SQLite | `./data/aeterna.db` |
+| `ALLOWED_ORIGINS` | Origines CORS autorisées | `*` |
+| `BASE_URL` | URL publique de l'application | — |
+| `AUTH_SESSION_TTL_HOURS` | Durée de session en heures | `12` |
+| `ALLOW_REGISTRATION` | Autoriser les nouvelles inscriptions | `true` |
+| `DB_ENCRYPTION_ENABLED` | Chiffrement de la base SQLite | `false` |
+| `WEBHOOK_ALLOWLIST_HOSTS` | Hosts autorisés pour les webhooks | — |
+
+### Langue des emails
+
+Chaque utilisateur peut choisir sa langue dans **Paramètres → Langue des emails**. Les emails de rappel (heartbeat) et de livraison sont envoyés dans la langue choisie.
+
+---
+
+## Gestion
+
+```bash
+# Voir les logs
+docker compose -f docker-compose.simple.yml logs -f
+
+# Mettre à jour (rebuild)
+docker compose -f docker-compose.simple.yml up -d --build
+
+# Arrêter
+docker compose -f docker-compose.simple.yml down
+
+# Sauvegarder les données
+cp -r data/ backup/
+cp secrets/encryption_key backup/
+```
+
+> ⚠️ **Important** : Sauvegardez `secrets/encryption_key` séparément. Sans cette clé, les messages chiffrés sont irrécupérables.
+
+---
+
+## Développement local
+
+```bash
+# Frontend (React + Vite) — avec proxy vers le backend Docker
+cd frontend
+npm install
+npm run dev
+# Accessible sur http://localhost:5173
+```
+
+Le serveur de développement proxifie automatiquement les appels `/api` vers le backend (port 5000).
+
+---
+
+## Sécurité
+
+- Messages chiffrés avec **AES-256-GCM** avant stockage
+- Clé de chiffrement stockée dans `secrets/encryption_key`, jamais en variable d'environnement
+- Pièces jointes supprimées du serveur après livraison réussie
+- Chiffrement de la base SQLite optionnel (`DB_ENCRYPTION_ENABLED=true`)
+- Token de heartbeat permet le check-in sans authentification complète
+
+---
+
+## Différences avec Aeterna
+
+Ce fork a été réalisé par [Cédric Locqueneux](https://github.com/cedriclocqueneux) et apporte les modifications suivantes par rapport au projet original :
+
+| Fonctionnalité | Aeterna original | Ce fork |
+|---|---|---|
+| Langue interface | Anglais uniquement | 🌍 8 langues |
+| Langue des emails | Anglais uniquement | 🌍 8 langues (par utilisateur) |
+| Thème | Sombre uniquement | 🌓 Clair / Sombre / Auto |
+| i18n backend | ❌ | ✅ Go embed + JSON |
+| i18n frontend | ❌ | ✅ react-i18next |
+
+---
+
+## Licence
+
+GPL-3.0 — voir [LICENSE](LICENSE)
+
+Ce projet est un fork d'[Aeterna](https://github.com/alpyxn/aeterna) créé par [alpyxn](https://github.com/alpyxn), modifié et maintenu par [Cédric Locqueneux](https://github.com/cedriclocqueneux).
