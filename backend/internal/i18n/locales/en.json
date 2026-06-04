@@ -1,0 +1,14 @@
+{
+  "email.triggered.subject": "A message for you",
+  "email.triggered.body": "Someone has arranged for this message to be delivered to you.\n\n---\n\n%s\n\n---\n\nSent by Aeterna",
+
+  "email.reminder.subject": "Check-in required",
+  "email.reminder.body": "You have a scheduled message that will be sent in %s unless you confirm.\n\nRecipient: %s\n\nTo confirm you are available, click the link below:\n%s\n\n---\nSent by Aeterna",
+  "email.reminder.days": "%d day(s)",
+  "email.reminder.hours": "%.0f hour(s)",
+  "email.reminder.minutes": "%.0f minute(s)",
+
+  "email.delivered.subject": "Message delivered",
+  "email.delivered.body": "Your scheduled message has been delivered as planned.\n\nRecipient: %s%s\n\n---\n\nSent by Aeterna",
+  "email.delivered.webhooks_header": "\n\nTriggered Webhooks:\n"
+}

@@ -11,6 +11,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/alpyxn/aeterna/backend/internal/i18n"
 	"github.com/alpyxn/aeterna/backend/internal/models"
 )
 
@@ -37,7 +38,8 @@ func (s EmailService) SendTriggeredMessage(settings models.Settings, msg models.
 	if len(recipients) == 0 {
 		recipients = []string{msg.RecipientEmail}
 	}
-	subject := "A message for you"
+	lang := settings.Language
+	subject := i18n.T(lang, "email.triggered.subject")
 
 	content := msg.Content
 	if msg.Content != "" {
@@ -47,15 +49,7 @@ func (s EmailService) SendTriggeredMessage(settings models.Settings, msg models.
 		}
 		content = decrypted
 	}
-	body := fmt.Sprintf(`Someone has arranged for this message to be delivered to you.
-
----
-
-%s
-
----
-
-Sent by Aeterna`, content)
+	body := i18n.Tf(lang, "email.triggered.body", content)
 
 	if len(attachments) > 0 {
 		return s.SendWithAttachments(settings, recipients, subject, body, attachments)

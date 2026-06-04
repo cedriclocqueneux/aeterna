@@ -10,8 +10,8 @@ function Textarea({
     <textarea
       data-slot="textarea"
       className={cn(
-        "min-h-16 w-full rounded-lg border bg-[#0d1117] border-[#30363d] px-3 py-2 text-sm text-[#f0f6fc] placeholder:text-[#6e7681] transition-colors outline-none resize-none",
-        "focus:border-[#14b8a6] focus:ring-1 focus:ring-[#14b8a6]/30",
+        "min-h-16 w-full rounded-lg border bg-dark-950 border-dark-700 px-3 py-2 text-sm text-dark-100 placeholder:text-dark-500 transition-colors outline-none resize-none",
+        "focus:border-teal-500 focus:ring-1 focus:ring-teal-500/30",
         "disabled:cursor-not-allowed disabled:opacity-50",
         className
       )}

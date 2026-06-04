@@ -8,6 +8,7 @@ import (
 
 	"github.com/alpyxn/aeterna/backend/internal/config"
 	"github.com/alpyxn/aeterna/backend/internal/database"
+	"github.com/alpyxn/aeterna/backend/internal/i18n"
 	"github.com/alpyxn/aeterna/backend/internal/models"
 	"github.com/alpyxn/aeterna/backend/internal/ports"
 	"github.com/alpyxn/aeterna/backend/internal/services"
@@ -104,28 +105,21 @@ func (w *Worker) sendReminderEmail(settings models.Settings, msg models.Message,
 	triggerTime := lastSeen.Add(time.Duration(msg.TriggerDuration) * time.Minute)
 	remaining := time.Until(triggerTime)
 
+	lang := settings.Language
 	var remainingStr string
 	if remaining.Hours() > 24 {
 		days := int(remaining.Hours() / 24)
-		remainingStr = fmt.Sprintf("%d day(s)", days)
+		remainingStr = i18n.Tf(lang, "email.reminder.days", days)
 	} else if remaining.Hours() > 1 {
-		remainingStr = fmt.Sprintf("%.0f hour(s)", remaining.Hours())
+		remainingStr = i18n.Tf(lang, "email.reminder.hours", remaining.Hours())
 	} else {
-		remainingStr = fmt.Sprintf("%.0f minute(s)", remaining.Minutes())
+		remainingStr = i18n.Tf(lang, "email.reminder.minutes", remaining.Minutes())
 	}
 
 	quickLink := fmt.Sprintf("%s/api/quick-heartbeat/%s", w.cfg.Worker.BaseURL, settings.HeartbeatToken)
 
-	subject := "Check-in required"
-	body := fmt.Sprintf(`You have a scheduled message that will be sent in %s unless you confirm.
-
-Recipient: %s
-
-To confirm you are available, click the link below:
-%s
-
----
-Sent by Aeterna`, remainingStr, formatRecipients(msg.RecipientEmail), quickLink)
+	subject := i18n.T(lang, "email.reminder.subject")
+	body := i18n.Tf(lang, "email.reminder.body", remainingStr, formatRecipients(msg.RecipientEmail), quickLink)
 
 	err := w.email.SendPlain(settings, []string{settings.OwnerEmail}, subject, body)
 	if err != nil {
@@ -231,22 +225,17 @@ func (w *Worker) triggerSwitch(msg models.Message) {
 }
 
 func (w *Worker) sendOwnerNotification(settings models.Settings, msg models.Message, webhooks []models.Webhook) {
+	lang := settings.Language
 	webhookInfo := ""
 	if len(webhooks) > 0 {
-		webhookInfo = "\n\nTriggered Webhooks:\n"
+		webhookInfo = i18n.T(lang, "email.delivered.webhooks_header")
 		for _, wh := range webhooks {
 			webhookInfo += fmt.Sprintf("- %s\n", wh.URL)
 		}
 	}
 
-	subject := "Message delivered"
-	body := fmt.Sprintf(`Your scheduled message has been delivered as planned.
-
-Recipient: %s%s
-
----
-
-Sent by Aeterna`, formatRecipients(msg.RecipientEmail), webhookInfo)
+	subject := i18n.T(lang, "email.delivered.subject")
+	body := i18n.Tf(lang, "email.delivered.body", formatRecipients(msg.RecipientEmail), webhookInfo)
 
 	err := w.email.SendPlain(settings, []string{settings.OwnerEmail}, subject, body)
 	if err != nil {

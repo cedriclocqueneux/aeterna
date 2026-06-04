@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
+import { useTheme } from './hooks/useTheme'
 import Header from './components/Header'
 import CreateSwitch from './components/CreateSwitch'
 import Dashboard from './components/Dashboard'
@@ -8,6 +10,8 @@ import SecurityBanner from './components/SecurityBanner'
 import { apiRequest } from './lib/api'
 
 function App() {
+  const { t } = useTranslation()
+  const { mode, changeMode } = useTheme()
   const [route, setRoute] = useState('home')
   const [authorized, setAuthorized] = useState(false)
 
@@ -46,6 +50,8 @@ function App() {
         currentRoute={route}
         setRoute={setRoute}
         onLogout={handleLogout}
+        themeMode={mode}
+        onThemeChange={changeMode}
       />
 
       <main className="container mx-auto px-3 sm:px-4 pt-20 sm:pt-28 pb-12 sm:pb-16 flex flex-col items-center">
@@ -60,9 +66,9 @@ function App() {
         )}
 
         <div className="mt-8 sm:mt-12 text-dark-500 text-[10px] sm:text-xs flex items-center gap-3 sm:gap-4">
-          <span>&copy; 2026 Aeterna</span>
+          <span>{t('app.footer_copyright')}</span>
           <span className="w-1 h-1 rounded-full bg-dark-700" />
-          <span>Dead Man's Switch</span>
+          <span>{t('app.footer_tagline')}</span>
         </div>
       </main>
     </div>

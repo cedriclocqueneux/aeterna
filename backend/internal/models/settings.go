@@ -17,6 +17,7 @@ type Settings struct {
 	WebhookEnabled     bool   `gorm:"column:webhook_enabled;default:0" json:"webhook_enabled"`
 	OwnerEmail         string `gorm:"column:owner_email" json:"owner_email"`
 	HeartbeatToken     string `gorm:"column:heartbeat_token" json:"-"`
+	Language           string `gorm:"column:language;default:fr" json:"language"`
 }
 
 // SettingsRequest is used for receiving settings from API (includes sensitive fields)
@@ -31,12 +32,17 @@ type SettingsRequest struct {
 	WebhookSecret  string `json:"webhook_secret"` // Accepted from API requests
 	WebhookEnabled bool   `json:"webhook_enabled"`
 	OwnerEmail     string `json:"owner_email"`
+	Language       string `json:"language"`
 	// AllowRegistration: only the primary (first) user may set this; persisted in application_settings.
 	AllowRegistration *bool `json:"allow_registration,omitempty"`
 }
 
 // ToSettings converts SettingsRequest to Settings model
 func (r SettingsRequest) ToSettings() Settings {
+	lang := r.Language
+	if lang == "" {
+		lang = "fr"
+	}
 	return Settings{
 		SMTPHost:       r.SMTPHost,
 		SMTPPort:       r.SMTPPort,
@@ -48,5 +54,6 @@ func (r SettingsRequest) ToSettings() Settings {
 		WebhookSecret:  r.WebhookSecret,
 		WebhookEnabled: r.WebhookEnabled,
 		OwnerEmail:     r.OwnerEmail,
+		Language:       lang,
 	}
 }

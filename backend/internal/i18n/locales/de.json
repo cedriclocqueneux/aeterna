@@ -1,0 +1,14 @@
+{
+  "email.triggered.subject": "Eine Nachricht für Sie",
+  "email.triggered.body": "Jemand hat veranlasst, dass diese Nachricht an Sie zugestellt wird.\n\n---\n\n%s\n\n---\n\nGesendet von Un Dernier Message",
+
+  "email.reminder.subject": "Anwesenheitsbestätigung erforderlich",
+  "email.reminder.body": "Sie haben eine geplante Nachricht, die in %s gesendet wird, sofern Sie nicht bestätigen.\n\nEmpfänger: %s\n\nUm zu bestätigen, dass Sie verfügbar sind, klicken Sie auf den folgenden Link:\n%s\n\n---\nGesendet von Un Dernier Message",
+  "email.reminder.days": "%d Tag(e)",
+  "email.reminder.hours": "%.0f Stunde(n)",
+  "email.reminder.minutes": "%.0f Minute(n)",
+
+  "email.delivered.subject": "Nachricht zugestellt",
+  "email.delivered.body": "Ihre geplante Nachricht wurde wie geplant zugestellt.\n\nEmpfänger: %s%s\n\n---\n\nGesendet von Un Dernier Message",
+  "email.delivered.webhooks_header": "\n\nAusgelöste Webhooks:\n"
+}

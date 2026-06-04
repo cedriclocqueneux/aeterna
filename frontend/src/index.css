@@ -1,7 +1,10 @@
 @import "tailwindcss";
 
+/* Active le dark mode par classe .dark sur <html> (compatible shadcn/ui) */
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
-  /* Soft Dark palette */
+  /* Palette sombre (valeurs par défaut) */
   --color-dark-950: #0d1117;
   --color-dark-900: #161b22;
   --color-dark-800: #21262d;
@@ -25,31 +28,100 @@
   --color-blue-400: #60a5fa;
 }
 
+/* =====================
+   VARIABLES SHADCN — THÈME SOMBRE (défaut)
+   ===================== */
 :root {
   --background: 215 28% 7%;
   --foreground: 210 20% 96%;
-
   --card: 215 25% 9%;
   --card-foreground: 210 20% 96%;
-
   --popover: 215 25% 9%;
   --popover-foreground: 210 20% 96%;
-
   --primary: 210 20% 98%;
   --primary-foreground: 215 28% 7%;
-
   --secondary: 215 20% 14%;
   --secondary-foreground: 210 20% 98%;
-
   --muted: 215 20% 16%;
   --muted-foreground: 215 15% 60%;
-
   --accent: 215 20% 18%;
   --accent-foreground: 210 20% 98%;
-
   --destructive: 0 62% 50%;
   --destructive-foreground: 210 20% 98%;
+  --border: 215 20% 18%;
+  --input: 215 20% 18%;
+  --ring: 172 66% 50%;
+}
 
+/* =====================
+   THÈME CLAIR — classe .dark ABSENTE
+   ===================== */
+:root:not(.dark) {
+  /* Palette claire */
+  --color-dark-950: #f8fafc;
+  --color-dark-900: #ffffff;
+  --color-dark-800: #f1f5f9;
+  --color-dark-700: #e2e8f0;
+  --color-dark-600: #cbd5e1;
+  --color-dark-500: #94a3b8;
+  --color-dark-400: #64748b;
+  --color-dark-300: #475569;
+  --color-dark-200: #334155;
+  --color-dark-100: #0f172a;
+
+  /* Variables shadcn pour thème clair */
+  --background: 210 40% 98%;
+  --foreground: 222 47% 11%;
+  --card: 0 0% 100%;
+  --card-foreground: 222 47% 11%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 222 47% 11%;
+  --primary: 222 47% 11%;
+  --primary-foreground: 210 40% 98%;
+  --secondary: 210 40% 90%;
+  --secondary-foreground: 222 47% 11%;
+  --muted: 210 40% 92%;
+  --muted-foreground: 215 16% 40%;
+  --accent: 210 35% 88%;
+  --accent-foreground: 222 47% 11%;
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 210 40% 98%;
+  --border: 214 32% 75%;
+  --input: 214 32% 75%;
+  --ring: 172 66% 40%;
+}
+
+/* =====================
+   THÈME SOMBRE — classe .dark présente
+   ===================== */
+.dark {
+  --color-dark-950: #0d1117;
+  --color-dark-900: #161b22;
+  --color-dark-800: #21262d;
+  --color-dark-700: #30363d;
+  --color-dark-600: #484f58;
+  --color-dark-500: #6e7681;
+  --color-dark-400: #8b949e;
+  --color-dark-300: #b1bac4;
+  --color-dark-200: #c9d1d9;
+  --color-dark-100: #f0f6fc;
+
+  --background: 215 28% 7%;
+  --foreground: 210 20% 96%;
+  --card: 215 25% 9%;
+  --card-foreground: 210 20% 96%;
+  --popover: 215 25% 9%;
+  --popover-foreground: 210 20% 96%;
+  --primary: 210 20% 98%;
+  --primary-foreground: 215 28% 7%;
+  --secondary: 215 20% 14%;
+  --secondary-foreground: 210 20% 98%;
+  --muted: 215 20% 16%;
+  --muted-foreground: 215 15% 60%;
+  --accent: 215 20% 18%;
+  --accent-foreground: 210 20% 98%;
+  --destructive: 0 62% 50%;
+  --destructive-foreground: 210 20% 98%;
   --border: 215 20% 18%;
   --input: 215 20% 18%;
   --ring: 172 66% 50%;
@@ -67,6 +139,25 @@ body {
 
 .glowing-card:hover {
   @apply border-dark-600;
+}
+
+/* Ombre subtile en mode clair */
+:root:not(.dark) .glowing-card {
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
+}
+
+/* Boutons outline lisibles en mode clair */
+:root:not(.dark) button[data-variant="outline"],
+:root:not(.dark) [data-slot="button"][data-variant="outline"] {
+  border-color: #94a3b8 !important;
+  color: #1e293b !important;
+  background-color: #ffffff !important;
+}
+
+:root:not(.dark) button[data-variant="outline"]:hover,
+:root:not(.dark) [data-slot="button"][data-variant="outline"]:hover {
+  background-color: #f1f5f9 !important;
+  border-color: #64748b !important;
 }
 
 /* Teal accent badges */
@@ -128,4 +219,9 @@ textarea {
 .animate-spin,
 .animate-pulse {
   transition: none;
+}
+
+/* Transition douce au changement de thème */
+html, body, .glowing-card {
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
 }

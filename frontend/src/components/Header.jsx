@@ -1,10 +1,57 @@
 import { useState } from 'react';
-import { LayoutDashboard, PlusCircle, LogOut, Settings, Menu, X } from 'lucide-react';
+import { LayoutDashboard, PlusCircle, LogOut, Settings, Menu, X, Sun, Moon, SunMoon } from 'lucide-react';
 import { Button } from "@/components/ui/button"
+import { useTranslation } from 'react-i18next';
+
+function LanguageSwitcher() {
+  const { i18n } = useTranslation();
+  return (
+    <select
+      value={i18n.language}
+      onChange={(e) => i18n.changeLanguage(e.target.value)}
+      className="bg-dark-900 border border-dark-700 text-dark-300 text-xs rounded px-2 py-1 cursor-pointer hover:border-dark-500"
+    >
+      <option value="fr">🇫🇷 FR</option>
+      <option value="en">🇬🇧 EN</option>
+      <option value="de">🇩🇪 DE</option>
+      <option value="es">🇪🇸 ES</option>
+      <option value="pt">🇵🇹 PT</option>
+      <option value="it">🇮🇹 IT</option>
+      <option value="nl">🇳🇱 NL</option>
+      <option value="pl">🇵🇱 PL</option>
+    </select>
+  );
+}
+
+function ThemeSwitcher({ mode, onChange }) {
+  const { t } = useTranslation();
+  const icons = {
+    light: <Sun className="w-3.5 h-3.5" />,
+    dark: <Moon className="w-3.5 h-3.5" />,
+    auto: <SunMoon className="w-3.5 h-3.5" />,
+  };
+  return (
+    <div className="flex items-center gap-0.5 bg-dark-900 border border-dark-700 rounded px-1 py-0.5">
+      {['light', 'auto', 'dark'].map((m) => (
+        <button
+          key={m}
+          onClick={() => onChange(m)}
+          title={t(`theme.${m}`)}
+          className={`p-1 rounded transition-colors ${
+            mode === m
+              ? 'bg-teal-600 text-white'
+              : 'text-dark-400 hover:text-dark-100'
+          }`}
+        >
+          {icons[m]}
+        </button>
+      ))}
+    </div>
+  );
+}
 
 function NavButton({ route, icon, label, currentRoute, onNavigate }) {
     const IconComponent = icon;
-
     return (
         <Button
             variant="ghost"
@@ -18,8 +65,9 @@ function NavButton({ route, icon, label, currentRoute, onNavigate }) {
     );
 }
 
-export default function Header({ currentRoute, setRoute, onLogout }) {
+export default function Header({ currentRoute, setRoute, onLogout, themeMode, onThemeChange }) {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+    const { t } = useTranslation();
 
     const handleNavigate = (route) => {
         setRoute(route);
@@ -37,15 +85,17 @@ export default function Header({ currentRoute, setRoute, onLogout }) {
                     }}
                 >
                     <span className="text-lg font-bold tracking-[0.2em] text-dark-100 group-hover:text-teal-400 transition-colors">
-                        AETERNA
+                        UN DERNIER MESSAGE
                     </span>
                 </div>
 
                 {/* Desktop Navigation */}
                 <nav className="hidden md:flex items-center gap-1">
-                    <NavButton route="home" icon={PlusCircle} label="Create" currentRoute={currentRoute} onNavigate={handleNavigate} />
-                    <NavButton route="dashboard" icon={LayoutDashboard} label="Dashboard" currentRoute={currentRoute} onNavigate={handleNavigate} />
-                    <NavButton route="settings" icon={Settings} label="Settings" currentRoute={currentRoute} onNavigate={handleNavigate} />
+                    <NavButton route="home" icon={PlusCircle} label={t('nav.create')} currentRoute={currentRoute} onNavigate={handleNavigate} />
+                    <NavButton route="dashboard" icon={LayoutDashboard} label={t('nav.dashboard')} currentRoute={currentRoute} onNavigate={handleNavigate} />
+                    <NavButton route="settings" icon={Settings} label={t('nav.settings')} currentRoute={currentRoute} onNavigate={handleNavigate} />
+                    <LanguageSwitcher />
+                    <ThemeSwitcher mode={themeMode} onChange={onThemeChange} />
                     {onLogout && (
                         <>
                             <div className="w-px h-4 bg-dark-700 mx-2" />
@@ -54,6 +104,7 @@ export default function Header({ currentRoute, setRoute, onLogout }) {
                                 size="icon"
                                 className="text-dark-500 hover:text-red-400 hover:bg-dark-800"
                                 onClick={onLogout}
+                                title={t('nav.logout')}
                             >
                                 <LogOut className="w-4 h-4" />
                             </Button>
@@ -76,9 +127,13 @@ export default function Header({ currentRoute, setRoute, onLogout }) {
             {mobileMenuOpen && (
                 <div className="md:hidden border-t border-dark-700 bg-dark-950/98 backdrop-blur-sm">
                     <nav className="container mx-auto px-4 py-3 flex flex-col gap-1">
-                        <NavButton route="home" icon={PlusCircle} label="Create" currentRoute={currentRoute} onNavigate={handleNavigate} />
-                        <NavButton route="dashboard" icon={LayoutDashboard} label="Dashboard" currentRoute={currentRoute} onNavigate={handleNavigate} />
-                        <NavButton route="settings" icon={Settings} label="Settings" currentRoute={currentRoute} onNavigate={handleNavigate} />
+                        <NavButton route="home" icon={PlusCircle} label={t('nav.create')} currentRoute={currentRoute} onNavigate={handleNavigate} />
+                        <NavButton route="dashboard" icon={LayoutDashboard} label={t('nav.dashboard')} currentRoute={currentRoute} onNavigate={handleNavigate} />
+                        <NavButton route="settings" icon={Settings} label={t('nav.settings')} currentRoute={currentRoute} onNavigate={handleNavigate} />
+                        <div className="py-2 flex items-center gap-2">
+                            <LanguageSwitcher />
+                            <ThemeSwitcher mode={themeMode} onChange={onThemeChange} />
+                        </div>
                         {onLogout && (
                             <>
                                 <div className="h-px bg-dark-700 my-2" />
@@ -92,7 +147,7 @@ export default function Header({ currentRoute, setRoute, onLogout }) {
                                     }}
                                 >
                                     <LogOut className="w-4 h-4 mr-2" />
-                                    Logout
+                                    {t('nav.logout')}
                                 </Button>
                             </>
                         )}

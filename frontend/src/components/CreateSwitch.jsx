@@ -1,4 +1,5 @@
 import { useState, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
@@ -13,13 +14,13 @@ import { formatFileSize, formatMinutes, formatFarewellDelay } from "@/lib/format
 import { parseRecipientEmails } from "@/lib/parsers"
 import { applyDurationToReminders, addReminderValue, removeReminderValue } from "@/lib/reminder-utils"
 
-
 export default function CreateSwitch({ setRoute }) {
+    const { t } = useTranslation();
     const [message, setMessage] = useState('');
     const [recipientInput, setRecipientInput] = useState('');
     const [recipientEmails, setRecipientEmails] = useState([]);
     const [duration, setDuration] = useState(1440);
-    const [reminders, setReminders] = useState([720]); // default to 12 hours before trigger
+    const [reminders, setReminders] = useState([720]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(false);
@@ -56,15 +57,15 @@ export default function CreateSwitch({ setRoute }) {
         const subject = letterSubject.trim();
         const content = letterContent;
         if (!EMAIL_REGEX.test(recipient)) {
-            setLetterFormError('Enter a valid recipient email.');
+            setLetterFormError(t('errors.invalid_email'));
             return;
         }
         if (!subject) {
-            setLetterFormError('Subject is required.');
+            setLetterFormError(t('errors.subject_required'));
             return;
         }
         if (!content.trim()) {
-            setLetterFormError('Letter content cannot be empty.');
+            setLetterFormError(t('errors.content_empty'));
             return;
         }
         const payload = {
@@ -98,7 +99,6 @@ export default function CreateSwitch({ setRoute }) {
         setPendingLetters(prev => prev.filter((_, i) => i !== idx));
     };
 
-
     const handleDurationChange = (newDuration) => {
         setDuration(newDuration);
         setReminders((prev) => applyDurationToReminders(prev, newDuration));
@@ -115,10 +115,10 @@ export default function CreateSwitch({ setRoute }) {
     const validateFile = (file) => {
         const ext = '.' + file.name.split('.').pop().toLowerCase();
         if (!ALLOWED_EXTENSIONS.includes(ext)) {
-            return `"${file.name}" — type not allowed. Allowed: PDF, TXT, DOC, DOCX, JPG, PNG, GIF, WEBP, ZIP`;
+            return t('errors.file_type', { name: file.name });
         }
         if (file.size > MAX_FILE_SIZE) {
-            return `"${file.name}" exceeds 10 MB limit`;
+            return t('errors.file_size', { name: file.name });
         }
         return null;
     };
@@ -128,14 +128,14 @@ export default function CreateSwitch({ setRoute }) {
         const fileArray = Array.from(newFiles);
 
         if (files.length + fileArray.length > MAX_FILES) {
-            setError(`Maximum ${MAX_FILES} files allowed`);
+            setError(t('errors.max_files', { max: MAX_FILES }));
             return;
         }
 
         const currentTotal = files.reduce((sum, f) => sum + f.size, 0);
         const newTotal = fileArray.reduce((sum, f) => sum + f.size, 0);
         if (currentTotal + newTotal > MAX_TOTAL_SIZE) {
-            setError('Total attachment size exceeds 25 MB limit');
+            setError(t('errors.total_size'));
             return;
         }
 
@@ -147,7 +147,6 @@ export default function CreateSwitch({ setRoute }) {
             }
         }
 
-        // Deduplicate by name
         const existingNames = new Set(files.map(f => f.name));
         const uniqueNew = fileArray.filter(f => !existingNames.has(f.name));
         setFiles(prev => [...prev, ...uniqueNew]);
@@ -208,7 +207,7 @@ export default function CreateSwitch({ setRoute }) {
     const handleAddRecipients = () => {
         const { invalid } = addRecipientsFromText(recipientInput);
         if (invalid) {
-            setError(`Invalid email address: ${invalid}`);
+            setError(t('errors.invalid_email_address', { email: invalid }));
         } else if (error) {
             setError(null);
         }
@@ -235,7 +234,7 @@ export default function CreateSwitch({ setRoute }) {
             e.preventDefault();
             const { invalid } = addRecipientsFromText(pasted);
             if (invalid) {
-                setError(`Invalid email address: ${invalid}`);
+                setError(t('errors.invalid_email_address', { email: invalid }));
             } else if (error) {
                 setError(null);
             }
@@ -250,7 +249,7 @@ export default function CreateSwitch({ setRoute }) {
 
         for (const email of pendingRecipients) {
             if (!EMAIL_REGEX.test(email)) {
-                setError(`Invalid email address: ${email}`);
+                setError(t('errors.invalid_email_address', { email }));
                 return;
             }
             const key = email.toLowerCase();
@@ -261,23 +260,21 @@ export default function CreateSwitch({ setRoute }) {
         }
 
         if (!message.trim()) {
-            setError('Please enter a message');
+            setError(t('errors.no_message'));
             return;
         }
         if (mergedRecipients.length === 0) {
-            setError('Please enter at least one recipient email');
+            setError(t('errors.no_recipient'));
             return;
         }
 
         setRecipientEmails(mergedRecipients);
-
         setLoading(true);
         setError(null);
         setSuccess(false);
         setUploadProgress('');
 
         try {
-            // Step 1: Create the message
             const result = await apiRequest('/messages', {
                 method: 'POST',
                 body: JSON.stringify({
@@ -294,14 +291,13 @@ export default function CreateSwitch({ setRoute }) {
                 throw err;
             });
 
-            // Step 2: Upload files (if any)
             if (files.length > 0) {
                 for (let i = 0; i < files.length; i++) {
-                    setUploadProgress(`Uploading file ${i + 1}/${files.length}...`);
+                    setUploadProgress(`${i + 1}/${files.length}...`);
                     try {
                         await uploadFile(result.id, files[i]);
                     } catch (uploadErr) {
-                        setError(`Switch created, but file "${files[i].name}" failed: ${uploadErr.message}`);
+                        setError(t('errors.file_upload_failed', { name: files[i].name, error: uploadErr.message }));
                         setLoading(false);
                         setUploadProgress('');
                         setFiles([]);
@@ -313,11 +309,10 @@ export default function CreateSwitch({ setRoute }) {
                 }
             }
 
-            // Step 3: Create pending farewell letters (if any)
             const letterErrors = [];
             for (let i = 0; i < pendingLetters.length; i++) {
                 const letterData = pendingLetters[i];
-                setUploadProgress(`Creating farewell letter ${i + 1}/${pendingLetters.length}...`);
+                setUploadProgress(`${i + 1}/${pendingLetters.length}...`);
                 try {
                     const savedLetter = await createFarewellLetter(result.id, {
                         recipient_email: letterData.recipient_email,
@@ -326,7 +321,6 @@ export default function CreateSwitch({ setRoute }) {
                         delay_minutes: letterData.delay_minutes,
                     });
                     for (const file of letterData.files || []) {
-                        setUploadProgress(`Uploading attachment for "${letterData.subject}"...`);
                         await uploadFarewellAttachment(result.id, savedLetter.id, file);
                     }
                 } catch (letterErr) {
@@ -343,7 +337,7 @@ export default function CreateSwitch({ setRoute }) {
             setUploadProgress('');
             setCreatedMessageId(result.id);
             if (letterErrors.length > 0) {
-                setError(`Switch created, but ${letterErrors.length} farewell letter(s) failed: ${letterErrors.join('; ')}`);
+                setError(t('errors.letters_failed', { count: letterErrors.length, errors: letterErrors.join('; ') }));
             }
         } catch (e) {
             setError(e.message);
@@ -357,16 +351,16 @@ export default function CreateSwitch({ setRoute }) {
         return (
             <div className="w-full max-w-2xl space-y-6">
                 <div className="text-center space-y-2">
-                    <h1 className="text-2xl font-semibold text-dark-100">Switch activated</h1>
+                    <h1 className="text-2xl font-semibold text-dark-100">{t('success.switch_activated_title')}</h1>
                     <p className="text-dark-400 text-sm max-w-md mx-auto">
-                        Optionally add farewell letters that will be sent after this switch fires.
+                        {t('success.switch_activated_subtitle')}
                     </p>
                 </div>
 
                 <Alert className="border-teal-500/20 bg-teal-500/10">
                     <CheckCircle className="h-4 w-4 text-teal-400" />
                     <AlertDescription className="text-teal-400">
-                        Switch created. Remember to check in regularly from the Dashboard.
+                        {t('success.switch_created')}
                     </AlertDescription>
                 </Alert>
 
@@ -382,13 +376,13 @@ export default function CreateSwitch({ setRoute }) {
                         onClick={() => setCreatedMessageId(null)}
                         className="border-dark-700 bg-dark-900 hover:bg-dark-800 text-dark-200"
                     >
-                        <Plus className="w-4 h-4 mr-2" /> Create another switch
+                        <Plus className="w-4 h-4 mr-2" /> {t('success.create_another')}
                     </Button>
                     <Button
                         onClick={() => setRoute?.('dashboard')}
                         className="bg-teal-600 hover:bg-teal-500 text-white"
                     >
-                        Go to Dashboard <ArrowRight className="w-4 h-4 ml-2" />
+                        {t('success.go_to_dashboard')} <ArrowRight className="w-4 h-4 ml-2" />
                     </Button>
                 </div>
             </div>
@@ -399,10 +393,10 @@ export default function CreateSwitch({ setRoute }) {
         <div className="w-full max-w-2xl space-y-6">
             <div className="text-center space-y-2">
                 <h1 className="text-2xl font-semibold text-dark-100">
-                    Dead Man's Switch
+                    {t('create.title')}
                 </h1>
                 <p className="text-dark-400 text-sm max-w-md mx-auto">
-                    Create a message that will be delivered if you don't check in regularly
+                    {t('create.subtitle')}
                 </p>
             </div>
 
@@ -410,19 +404,19 @@ export default function CreateSwitch({ setRoute }) {
                 <CardHeader className="pb-4">
                     <CardTitle className="flex items-center gap-2 text-base font-medium">
                         <Send className="w-4 h-4 text-teal-400" />
-                        Create New Switch
+                        {t('create.card_title')}
                     </CardTitle>
                     <CardDescription className="text-dark-400">
-                        Your message will be sent if you fail to send a heartbeat before the timer runs out
+                        {t('create.card_description')}
                     </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
                     <div className="space-y-2">
                         <label className="text-xs font-medium text-dark-400 flex items-center gap-2">
-                            <Lock className="w-3 h-3" /> Your Message
+                            <Lock className="w-3 h-3" /> {t('create.your_message')}
                         </label>
                         <Textarea
-                            placeholder="Write your message here..."
+                            placeholder={t('create.your_message_placeholder')}
                             value={message}
                             onChange={(e) => {
                                 setMessage(e.target.value);
@@ -433,7 +427,6 @@ export default function CreateSwitch({ setRoute }) {
                         />
                     </div>
 
-                    {/* Attachments Toggle */}
                     <div className="flex items-center space-x-2 pt-2">
                         <input
                             type="checkbox"
@@ -446,15 +439,14 @@ export default function CreateSwitch({ setRoute }) {
                             className="h-4 w-4 rounded border-dark-700 bg-dark-950 text-teal-600 focus:ring-teal-500 accent-teal-500"
                         />
                         <label htmlFor="show-attachments" className="text-xs font-medium text-dark-300 cursor-pointer">
-                            Send attachments with this switch
+                            {t('create.send_attachments')}
                         </label>
                     </div>
 
-                    {/* File Upload Area */}
                     {showAttachments && (
                         <div className="space-y-2 animate-in fade-in slide-in-from-top-2 duration-300">
                             <label className="text-xs font-medium text-dark-400 flex items-center gap-2">
-                                <Paperclip className="w-3 h-3" /> Attachments
+                                <Paperclip className="w-3 h-3" /> {t('create.attachments')}
                                 <span className="text-dark-600 font-normal">({files.length}/{MAX_FILES})</span>
                             </label>
                             <div
@@ -480,14 +472,13 @@ export default function CreateSwitch({ setRoute }) {
                                 />
                                 <Upload className="w-5 h-5 text-dark-500 mx-auto mb-2" />
                                 <p className="text-xs text-dark-400">
-                                    Drag & drop files or <span className="text-teal-400 underline">browse</span>
+                                    {t('create.drag_drop')} <span className="text-teal-400 underline">{t('create.browse')}</span>
                                 </p>
                                 <p className="text-[10px] text-dark-600 mt-1">
-                                    PDF, TXT, DOC, images, ZIP • Max 10 MB each • {MAX_FILES} files max
+                                    {t('create.file_limits', { max: MAX_FILES })}
                                 </p>
                             </div>
 
-                            {/* File List */}
                             {files.length > 0 && (
                                 <div className="space-y-1.5">
                                     {files.map((file, index) => (
@@ -509,7 +500,7 @@ export default function CreateSwitch({ setRoute }) {
                                         </div>
                                     ))}
                                     <p className="text-[10px] text-dark-600 text-right">
-                                        Total: {formatFileSize(files.reduce((sum, f) => sum + f.size, 0))} / 25 MB
+                                        {t('create.total_size', { size: formatFileSize(files.reduce((sum, f) => sum + f.size, 0)) })}
                                     </p>
                                 </div>
                             )}
@@ -519,13 +510,13 @@ export default function CreateSwitch({ setRoute }) {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div className="space-y-2">
                             <label className="text-xs font-medium text-dark-400 flex items-center gap-2">
-                                <Mail className="w-3 h-3" /> Recipient Emails
+                                <Mail className="w-3 h-3" /> {t('create.recipient_emails')}
                             </label>
                             <div className="space-y-2">
                                 <div className="flex gap-2">
                                     <Input
                                         type="text"
-                                        placeholder="recipient@email.com"
+                                        placeholder={t('create.recipient_placeholder')}
                                         value={recipientInput}
                                         onChange={(e) => {
                                             setRecipientInput(e.target.value);
@@ -544,7 +535,7 @@ export default function CreateSwitch({ setRoute }) {
                                         className="border-dark-700 bg-dark-900 hover:bg-dark-800 text-dark-200"
                                         disabled={!recipientInput.trim()}
                                     >
-                                        <Plus className="w-4 h-4 mr-1" /> Add
+                                        <Plus className="w-4 h-4 mr-1" /> {t('create.add')}
                                     </Button>
                                 </div>
 
@@ -567,14 +558,14 @@ export default function CreateSwitch({ setRoute }) {
                                 )}
 
                                 <p className="text-[10px] text-dark-600">
-                                    Press Enter, Tab, comma, or use + Add. You can also paste multiple emails.
+                                    {t('create.recipient_hint')}
                                 </p>
                             </div>
                         </div>
 
                         <div className="space-y-2">
                             <label className="text-xs font-medium text-dark-400 flex items-center gap-2">
-                                <Clock className="w-3 h-3" /> Trigger After
+                                <Clock className="w-3 h-3" /> {t('create.trigger_after')}
                             </label>
                             <Select
                                 value={duration}
@@ -583,7 +574,7 @@ export default function CreateSwitch({ setRoute }) {
                             >
                                 {TIME_PRESETS.map(preset => (
                                     <option key={preset.value} value={preset.value}>
-                                        {preset.label}
+                                        {t(preset.label)}
                                     </option>
                                 ))}
                             </Select>
@@ -592,14 +583,14 @@ export default function CreateSwitch({ setRoute }) {
 
                     <div className="space-y-2">
                         <label className="text-xs font-medium text-dark-400 flex items-center gap-2">
-                            <Clock className="w-3 h-3 text-teal-400" /> Reminders Before Trigger
+                            <Clock className="w-3 h-3 text-teal-400" /> {t('create.reminders')}
                         </label>
                         <div className="flex flex-col gap-2 bg-dark-900 border border-dark-700 rounded-lg p-3">
                             {reminders.length > 0 ? (
                                 <div className="flex flex-wrap gap-2">
                                     {reminders.map(r => {
                                         const preset = REMINDER_PRESETS.find(p => p.value === r);
-                                        const label = preset ? preset.label : formatMinutes(r);
+                                        const label = preset ? t(preset.label) : formatMinutes(r);
                                         return (
                                             <div key={r} className="flex items-center gap-1 bg-dark-800 text-dark-200 text-xs px-2 py-1 rounded">
                                                 <span>{label}</span>
@@ -611,7 +602,7 @@ export default function CreateSwitch({ setRoute }) {
                                     })}
                                 </div>
                             ) : (
-                                <p className="text-xs text-dark-500">No reminders configured. The switch will trigger without warning.</p>
+                                <p className="text-xs text-dark-500">{t('create.no_reminders')}</p>
                             )}
 
                             <div className="flex items-center gap-2 mt-2">
@@ -625,10 +616,10 @@ export default function CreateSwitch({ setRoute }) {
                                     className="bg-dark-950 border-dark-700 text-dark-100 text-xs h-8"
                                     value={""}
                                 >
-                                    <option value="" disabled>Add a reminder...</option>
+                                    <option value="" disabled>{t('create.add_reminder')}</option>
                                     {REMINDER_PRESETS.filter(p => !reminders.includes(p.value) && p.value < duration).map(preset => (
                                         <option key={preset.value} value={preset.value}>
-                                            {preset.label}
+                                            {t(preset.label)}
                                         </option>
                                     ))}
                                 </Select>
@@ -636,12 +627,11 @@ export default function CreateSwitch({ setRoute }) {
                         </div>
                     </div>
 
-                    {/* Farewell Letters */}
                     <div className="space-y-2">
                         <div className="flex items-center justify-between">
                             <label className="text-xs font-medium text-dark-400 flex items-center gap-2">
-                                <MessageSquare className="w-3 h-3" /> Farewell Letters
-                                <span className="text-dark-600 font-normal">(optional)</span>
+                                <MessageSquare className="w-3 h-3" /> {t('create.farewell_letters')}
+                                <span className="text-dark-600 font-normal">{t('create.optional')}</span>
                             </label>
                             {!showLetterForm && (
                                 <Button
@@ -651,7 +641,7 @@ export default function CreateSwitch({ setRoute }) {
                                     onClick={() => { setShowLetterForm(true); setEditingLetterIdx(null); }}
                                     className="border-dark-700 bg-dark-900 hover:bg-dark-800 text-dark-200 h-7 text-xs"
                                 >
-                                    <Plus className="w-3 h-3 mr-1" /> Add letter
+                                    <Plus className="w-3 h-3 mr-1" /> {t('create.add_letter')}
                                 </Button>
                             )}
                         </div>
@@ -664,11 +654,11 @@ export default function CreateSwitch({ setRoute }) {
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                                     <div className="space-y-1">
                                         <label className="text-xs font-medium text-dark-400 flex items-center gap-1">
-                                            <Mail className="w-3 h-3" /> Recipient email
+                                            <Mail className="w-3 h-3" /> {t('create.recipient_email')}
                                         </label>
                                         <Input
                                             type="email"
-                                            placeholder="someone@example.com"
+                                            placeholder={t('create.recipient_email_placeholder')}
                                             value={letterRecipient}
                                             onChange={(e) => setLetterRecipient(e.target.value)}
                                             className="bg-dark-950 border-dark-700 focus:border-teal-500 text-dark-100 placeholder:text-dark-500"
@@ -676,7 +666,7 @@ export default function CreateSwitch({ setRoute }) {
                                     </div>
                                     <div className="space-y-1">
                                         <label className="text-xs font-medium text-dark-400 flex items-center gap-1">
-                                            <Clock className="w-3 h-3" /> Send delay
+                                            <Clock className="w-3 h-3" /> {t('create.send_delay')}
                                         </label>
                                         <select
                                             value={letterDelay}
@@ -684,25 +674,25 @@ export default function CreateSwitch({ setRoute }) {
                                             className="w-full h-9 rounded-md border border-dark-700 bg-dark-950 text-dark-100 text-sm px-3 focus:outline-none focus:border-teal-500"
                                         >
                                             {FAREWELL_DELAY_PRESETS.map(p => (
-                                                <option key={p.value} value={p.value}>{p.label}</option>
+                                                <option key={p.value} value={p.value}>{t(p.label)}</option>
                                             ))}
                                         </select>
                                     </div>
                                 </div>
                                 <div className="space-y-1">
-                                    <label className="text-xs font-medium text-dark-400">Subject</label>
+                                    <label className="text-xs font-medium text-dark-400">{t('create.subject')}</label>
                                     <Input
                                         type="text"
-                                        placeholder="A farewell message for you"
+                                        placeholder={t('create.subject_placeholder')}
                                         value={letterSubject}
                                         onChange={(e) => setLetterSubject(e.target.value)}
                                         className="bg-dark-950 border-dark-700 focus:border-teal-500 text-dark-100 placeholder:text-dark-500"
                                     />
                                 </div>
                                 <div className="space-y-1">
-                                    <label className="text-xs font-medium text-dark-400">Message</label>
+                                    <label className="text-xs font-medium text-dark-400">{t('create.message')}</label>
                                     <Textarea
-                                        placeholder="Write your farewell message..."
+                                        placeholder={t('create.message_placeholder')}
                                         value={letterContent}
                                         onChange={(e) => setLetterContent(e.target.value)}
                                         className="min-h-[100px] bg-dark-950 border-dark-700 focus:border-teal-500 text-dark-100 placeholder:text-dark-500"
@@ -711,12 +701,12 @@ export default function CreateSwitch({ setRoute }) {
                                 <div className="space-y-1">
                                     <div className="flex items-center justify-between">
                                         <label className="text-xs font-medium text-dark-400 flex items-center gap-1">
-                                            <Paperclip className="w-3 h-3" /> Attachments
+                                            <Paperclip className="w-3 h-3" /> {t('create.attachments')}
                                             <span className="text-dark-600 font-normal">({letterFiles.length}/{MAX_FILES})</span>
                                         </label>
                                         {letterFiles.length < MAX_FILES && (
                                             <label className="cursor-pointer flex items-center gap-1 text-xs text-teal-400 hover:text-teal-300">
-                                                <Upload className="w-3 h-3" /> Add file
+                                                <Upload className="w-3 h-3" /> {t('create.add_file')}
                                                 <input
                                                     type="file"
                                                     className="hidden"
@@ -728,7 +718,7 @@ export default function CreateSwitch({ setRoute }) {
                                                         if (err) { setLetterFormError(err); e.target.value = ''; return; }
                                                         const totalSize = letterFiles.reduce((s, f) => s + f.size, 0);
                                                         if (totalSize + file.size > MAX_TOTAL_SIZE) {
-                                                            setLetterFormError('Total attachment size would exceed 25 MB');
+                                                            setLetterFormError(t('errors.total_size_letter'));
                                                             e.target.value = '';
                                                             return;
                                                         }
@@ -768,7 +758,7 @@ export default function CreateSwitch({ setRoute }) {
                                         onClick={resetLetterForm}
                                         className="border-dark-700 bg-dark-900 hover:bg-dark-800 text-dark-200"
                                     >
-                                        Cancel
+                                        {t('create.cancel')}
                                     </Button>
                                     <Button
                                         type="button"
@@ -776,7 +766,7 @@ export default function CreateSwitch({ setRoute }) {
                                         onClick={savePendingLetter}
                                         className="bg-teal-600 hover:bg-teal-500 text-white"
                                     >
-                                        {editingLetterIdx != null ? 'Update letter' : 'Add letter'}
+                                        {editingLetterIdx != null ? t('create.update_letter') : t('create.add_letter')}
                                     </Button>
                                 </div>
                             </div>
@@ -822,7 +812,7 @@ export default function CreateSwitch({ setRoute }) {
                                         onClick={() => setRoute?.('settings')}
                                     >
                                         <SettingsIcon className="w-3.5 h-3.5 mr-2" />
-                                        Go to Settings
+                                        {t('create.go_to_settings')}
                                     </Button>
                                 )}
                             </AlertDescription>
@@ -833,7 +823,7 @@ export default function CreateSwitch({ setRoute }) {
                         <Alert className="border-teal-500/20 bg-teal-500/10">
                             <CheckCircle className="h-4 w-4 text-teal-400" />
                             <AlertDescription className="text-teal-400">
-                                Switch activated! Remember to check in regularly.
+                                {t('success.activated_alert')}
                             </AlertDescription>
                         </Alert>
                     )}
@@ -856,13 +846,13 @@ export default function CreateSwitch({ setRoute }) {
                         ) : (
                             <Send className="w-4 h-4 mr-2" />
                         )}
-                        Activate Switch
+                        {t('create.activate')}
                     </Button>
                 </CardFooter>
             </Card>
 
             <div className="text-center text-xs text-dark-500 space-y-1">
-                <p>Make sure to send heartbeats from the Dashboard to prevent delivery</p>
+                <p>{t('create.footer_hint')}</p>
             </div>
         </div>
     );

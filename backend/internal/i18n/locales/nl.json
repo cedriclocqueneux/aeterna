@@ -1,0 +1,14 @@
+{
+  "email.triggered.subject": "Een bericht voor u",
+  "email.triggered.body": "Iemand heeft geregeld dat dit bericht aan u wordt bezorgd.\n\n---\n\n%s\n\n---\n\nVerzonden door Un Dernier Message",
+
+  "email.reminder.subject": "Aanwezigheidsbevestiging vereist",
+  "email.reminder.body": "U heeft een gepland bericht dat over %s wordt verzonden tenzij u bevestigt.\n\nOntvanger: %s\n\nKlik op de onderstaande link om te bevestigen dat u beschikbaar bent:\n%s\n\n---\nVerzonden door Un Dernier Message",
+  "email.reminder.days": "%d dag(en)",
+  "email.reminder.hours": "%.0f uur",
+  "email.reminder.minutes": "%.0f minuut/minuten",
+
+  "email.delivered.subject": "Bericht bezorgd",
+  "email.delivered.body": "Uw geplande bericht is zoals gepland bezorgd.\n\nOntvanger: %s%s\n\n---\n\nVerzonden door Un Dernier Message",
+  "email.delivered.webhooks_header": "\n\nGeactiveerde webhooks:\n"
+}

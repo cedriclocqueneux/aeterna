@@ -1,0 +1,14 @@
+{
+  "email.triggered.subject": "Un message pour vous",
+  "email.triggered.body": "Une personne a organisé la livraison de ce message.\n\n---\n\n%s\n\n---\n\nEnvoyé par Un Dernier Message",
+
+  "email.reminder.subject": "Confirmation de présence requise",
+  "email.reminder.body": "Vous avez un message programmé qui sera envoyé dans %s sauf confirmation de votre part.\n\nDestinataire : %s\n\nPour confirmer que vous êtes disponible, cliquez sur le lien ci-dessous :\n%s\n\n---\nEnvoyé par Un Dernier Message",
+  "email.reminder.days": "%d jour(s)",
+  "email.reminder.hours": "%.0f heure(s)",
+  "email.reminder.minutes": "%.0f minute(s)",
+
+  "email.delivered.subject": "Message envoyé",
+  "email.delivered.body": "Votre message programmé a été livré comme prévu.\n\nDestinataire : %s%s\n\n---\n\nEnvoyé par Un Dernier Message",
+  "email.delivered.webhooks_header": "\n\nWebhooks déclenchés :\n"
+}
