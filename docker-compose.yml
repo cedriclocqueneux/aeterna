@@ -9,6 +9,8 @@ services:
     environment:
       - DATABASE_PATH=/app/data/aeterna.db
       - ENV=production
+      # Optionnel : URL de votre instance Plausible (laisser vide pour désactiver)
+      - PLAUSIBLE_URL=${PLAUSIBLE_URL:-}
     volumes:
       - ./data:/app/data
       - ./secrets:/app/secrets
@@ -25,12 +27,17 @@ services:
       dockerfile: Dockerfile
       args:
         - VITE_API_URL=${VITE_API_URL}
+        # Build-time : baked dans le bundle JS pour injecter le script Plausible
+        - VITE_PLAUSIBLE_DOMAIN=${PLAUSIBLE_DOMAIN:-}
+        - VITE_PLAUSIBLE_URL=${PLAUSIBLE_URL:-}
     ports:
       - "${FRONTEND_PORT:-5173}:80"
     depends_on:
       - backend
     environment:
       - VITE_API_URL=${VITE_API_URL}
+      # Runtime : utilisé par nginx pour construire le CSP dynamiquement
+      - PLAUSIBLE_URL=${PLAUSIBLE_URL:-}
     networks:
       - aeterna-net
 

@@ -16,11 +16,13 @@ func init() {
 }
 
 type AppSection struct {
-	Env string
+	Env         string
+	PlausibleURL string
 }
 
 func (AppModule) LoadAndValidate() (AppSection, error) {
 	return AppSection{
-		Env: common.GetenvTrim("ENV"),
+		Env:         common.GetenvTrim("ENV"),
+		PlausibleURL: common.GetenvTrim("PLAUSIBLE_URL"),
 	}, nil
 }

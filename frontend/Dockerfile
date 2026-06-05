@@ -17,7 +17,17 @@ RUN npm run build
 
 FROM nginx:alpine
 COPY --from=builder /app/dist /usr/share/nginx/html
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+# Stocké comme template — traité par envsubst au démarrage (voir CMD ci-dessous)
+COPY nginx.conf /etc/nginx/nginx.conf.template
 
 EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
+# On bypasse l'entrypoint nginx:alpine pour contrôler l'ordre :
+# 1. Calculer PLAUSIBLE_EXTRA_SOURCES depuis PLAUSIBLE_URL (runtime, optionnel)
+#    - si défini  → " https://votre-plausible.example.com"
+#    - sinon      → "" (CSP inchangé, aucune erreur)
+# 2. Substituer uniquement $PLAUSIBLE_EXTRA_SOURCES dans le template (les vars nginx $uri, $host… sont préservées)
+# 3. Lancer nginx
+ENTRYPOINT ["/bin/sh", "-c"]
+CMD ["export PLAUSIBLE_EXTRA_SOURCES=${PLAUSIBLE_URL:+ $PLAUSIBLE_URL} && \
+  envsubst '$PLAUSIBLE_EXTRA_SOURCES' < /etc/nginx/nginx.conf.template > /etc/nginx/conf.d/default.conf && \
+  exec nginx -g 'daemon off;'"]
