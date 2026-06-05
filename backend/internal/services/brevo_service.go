@@ -4,11 +4,10 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"log/slog"
 	"net/http"
 	"strconv"
 	"time"
-
-	"github.com/alpyxn/aeterna/backend/internal/logging"
 )
 
 const brevoAPIURL = "https://api.brevo.com/v3/contacts"
@@ -29,7 +28,7 @@ func NewBrevoService(apiKey, listIDStr string) *BrevoService {
 	}
 	listID, err := strconv.Atoi(listIDStr)
 	if err != nil || listID <= 0 {
-		logging.GetLogger().Warnf("BREVO_LIST_ID invalide (%q) — Brevo désactivé", listIDStr)
+		slog.Warn("BREVO_LIST_ID invalide — Brevo désactivé", "value", listIDStr)
 		return nil
 	}
 	return &BrevoService{
@@ -47,7 +46,7 @@ func (s *BrevoService) AddContact(email string) {
 	}
 	go func() {
 		if err := s.addContact(email); err != nil {
-			logging.GetLogger().Warnf("Brevo : impossible d'ajouter %q à la liste %d : %v", email, s.listID, err)
+			slog.Warn("Brevo : impossible d'ajouter le contact", "email", email, "list_id", s.listID, "error", err)
 		}
 	}()
 }
