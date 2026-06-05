@@ -9,6 +9,10 @@ ARG VITE_PLAUSIBLE_DOMAIN=
 ARG VITE_PLAUSIBLE_URL=
 ENV VITE_PLAUSIBLE_DOMAIN=$VITE_PLAUSIBLE_DOMAIN
 ENV VITE_PLAUSIBLE_URL=$VITE_PLAUSIBLE_URL
+
+# Brevo mailing list (optionnel - 'true' pour activer la case à cocher RGPD)
+ARG VITE_BREVO_ENABLED=
+ENV VITE_BREVO_ENABLED=$VITE_BREVO_ENABLED
 COPY package.json package-lock.json ./
 RUN npm ci --no-audit --no-fund
 
