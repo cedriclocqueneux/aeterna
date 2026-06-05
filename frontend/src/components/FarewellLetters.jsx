@@ -1,4 +1,5 @@
 import { useState, useEffect, useMemo, useRef, useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
 import { marked } from 'marked';
 import DOMPurify from 'dompurify';
 import { Button } from "@/components/ui/button";
@@ -335,6 +336,7 @@ function LetterForm({ messageId, letter, onSave, onCancel }) {
 }
 
 export default function FarewellLetters({ messageId, mode = 'edit', onChanged }) {
+    const { t } = useTranslation();
     const [letters, setLetters] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -454,11 +456,11 @@ export default function FarewellLetters({ messageId, mode = 'edit', onChanged })
             )}
             <div className="flex items-center justify-between">
                 <div>
-                    <h3 className="text-sm font-medium text-dark-100">Farewell Letters</h3>
+                    <h3 className="text-sm font-medium text-dark-100">{t('farewell.title')}</h3>
                     <p className="text-xs text-dark-400 mt-0.5">
                         {queueMode
-                            ? 'Pending deliveries can be canceled after this switch has triggered.'
-                            : 'Personal messages sent after this switch fires, each with its own delay.'}
+                            ? t('farewell.desc_queue')
+                            : t('farewell.desc_edit')}
                     </p>
                 </div>
                 {queueMode && pendingLetters.length > 0 && (
@@ -466,21 +468,21 @@ export default function FarewellLetters({ messageId, mode = 'edit', onChanged })
                         <AlertDialogTrigger asChild>
                             <Button size="sm" variant="outline"
                                 className="border-red-500/30 bg-red-950/20 hover:bg-red-950/40 text-red-300 shrink-0">
-                                <Trash2 className="w-3 h-3 mr-1" /> Cancel all
+                                <Trash2 className="w-3 h-3 mr-1" /> {t('farewell.cancel_all')}
                             </Button>
                         </AlertDialogTrigger>
                         <AlertDialogContent className="bg-dark-900 border-dark-700">
-                            <AlertDialogTitle>Cancel all pending letters?</AlertDialogTitle>
+                            <AlertDialogTitle>{t('farewell.cancel_all_title')}</AlertDialogTitle>
                             <AlertDialogDescription className="text-dark-400">
-                                This cancels every pending farewell letter for this triggered switch. Sent letters are not changed.
+                                {t('farewell.cancel_all_desc')}
                             </AlertDialogDescription>
                             <div className="flex gap-2 justify-end mt-2">
                                 <AlertDialogCancel className="border-dark-700 bg-dark-900 hover:bg-dark-800 text-dark-200">
-                                    Keep queue
+                                    {t('farewell.keep_queue')}
                                 </AlertDialogCancel>
                                 <AlertDialogAction onClick={handleCancelAll}
                                     className="bg-red-600 hover:bg-red-500 text-white border-0">
-                                    Cancel all pending
+                                    {t('farewell.cancel_all_confirm')}
                                 </AlertDialogAction>
                             </div>
                         </AlertDialogContent>
@@ -489,7 +491,7 @@ export default function FarewellLetters({ messageId, mode = 'edit', onChanged })
                 {!queueMode && !showForm && !editingLetter && (
                     <Button size="sm" variant="outline" onClick={() => setShowForm(true)}
                         className="border-dark-700 bg-dark-900 hover:bg-dark-800 text-dark-200 shrink-0">
-                        <Plus className="w-3 h-3 mr-1" /> Add letter
+                        <Plus className="w-3 h-3 mr-1" /> {t('farewell.add_letter')}
                     </Button>
                 )}
             </div>
@@ -513,14 +515,14 @@ export default function FarewellLetters({ messageId, mode = 'edit', onChanged })
                 <Alert className="border-teal-500/20 bg-teal-500/10">
                     <CheckCircle className="h-4 w-4 text-teal-400" />
                     <AlertDescription className="text-teal-200">
-                        No pending farewell deliveries remain for this switch.
+                        {t('farewell.no_pending')}
                     </AlertDescription>
                 </Alert>
             )}
 
             {letters.length === 0 && !showForm ? (
                 <div className="text-center py-6 text-dark-500 text-xs border border-dashed border-dark-700 rounded-lg">
-                    {queueMode ? 'No farewell letters are queued for this switch.' : 'No farewell letters configured yet.'}
+                    {queueMode ? t('farewell.none_queued') : t('farewell.none_configured')}
                 </div>
             ) : (
                 <div className="space-y-2">

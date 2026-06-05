@@ -334,6 +334,20 @@
       "2_weeks": "2 settimane dopo attivazione"
     }
   },
+  "farewell": {
+    "title": "Lettere d'addio",
+    "desc_edit": "Messaggi personali inviati dopo l'attivazione, ognuno con il proprio ritardo.",
+    "desc_queue": "Le consegne in sospeso possono essere annullate dopo l'attivazione di questo interruttore.",
+    "add_letter": "Aggiungi lettera",
+    "cancel_all": "Annulla tutto",
+    "cancel_all_title": "Annullare tutte le lettere in sospeso?",
+    "cancel_all_desc": "Questo annulla tutte le lettere d'addio in sospeso per questo interruttore attivato. Le lettere già inviate non vengono modificate.",
+    "keep_queue": "Mantieni coda",
+    "cancel_all_confirm": "Annulla tutte le in sospeso",
+    "no_pending": "Nessuna consegna di lettere d'addio in sospeso per questo interruttore.",
+    "none_queued": "Nessuna lettera d'addio in coda per questo interruttore.",
+    "none_configured": "Nessuna lettera d'addio configurata."
+  },
   "theme": {
     "light": "Chiaro",
     "dark": "Scuro",

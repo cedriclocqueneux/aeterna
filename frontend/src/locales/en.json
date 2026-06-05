@@ -334,6 +334,20 @@
       "2_weeks": "2 weeks after trigger"
     }
   },
+  "farewell": {
+    "title": "Farewell Letters",
+    "desc_edit": "Personal messages sent after this switch fires, each with its own delay.",
+    "desc_queue": "Pending deliveries can be canceled after this switch has triggered.",
+    "add_letter": "Add letter",
+    "cancel_all": "Cancel all",
+    "cancel_all_title": "Cancel all pending letters?",
+    "cancel_all_desc": "This cancels every pending farewell letter for this triggered switch. Sent letters are not changed.",
+    "keep_queue": "Keep queue",
+    "cancel_all_confirm": "Cancel all pending",
+    "no_pending": "No pending farewell deliveries remain for this switch.",
+    "none_queued": "No farewell letters are queued for this switch.",
+    "none_configured": "No farewell letters configured yet."
+  },
   "theme": {
     "light": "Light",
     "dark": "Dark",

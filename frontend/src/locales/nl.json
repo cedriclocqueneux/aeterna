@@ -334,6 +334,20 @@
       "2_weeks": "2 weken na activering"
     }
   },
+  "farewell": {
+    "title": "Afscheidsbrieven",
+    "desc_edit": "Persoonlijke berichten verzonden na het activeren van deze schakelaar, elk met een eigen vertraging.",
+    "desc_queue": "Lopende leveringen kunnen worden geannuleerd nadat deze schakelaar is geactiveerd.",
+    "add_letter": "Brief toevoegen",
+    "cancel_all": "Alles annuleren",
+    "cancel_all_title": "Alle openstaande brieven annuleren?",
+    "cancel_all_desc": "Dit annuleert alle openstaande afscheidsbrieven voor deze geactiveerde schakelaar. Reeds verzonden brieven worden niet gewijzigd.",
+    "keep_queue": "Wachtrij bewaren",
+    "cancel_all_confirm": "Alle openstaande annuleren",
+    "no_pending": "Geen openstaande afleveringen van afscheidsbrieven voor deze schakelaar.",
+    "none_queued": "Geen afscheidsbrieven in de wachtrij voor deze schakelaar.",
+    "none_configured": "Nog geen afscheidsbrieven geconfigureerd."
+  },
   "theme": {
     "light": "Licht",
     "dark": "Donker",

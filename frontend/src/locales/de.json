@@ -334,6 +334,20 @@
       "2_weeks": "2 Wochen nach Auslosung"
     }
   },
+  "farewell": {
+    "title": "Abschiedsbriefe",
+    "desc_edit": "Persönliche Nachrichten, die nach dem Auslösen gesendet werden, jede mit eigenem Verzögerung.",
+    "desc_queue": "Ausstehende Sendungen können nach dem Auslösen dieses Schalters storniert werden.",
+    "add_letter": "Brief hinzufügen",
+    "cancel_all": "Alle abbrechen",
+    "cancel_all_title": "Alle ausstehenden Briefe abbrechen?",
+    "cancel_all_desc": "Dies bricht alle ausstehenden Abschiedsbriefe für diesen ausgelösten Schalter ab. Bereits gesendete Briefe werden nicht geändert.",
+    "keep_queue": "Warteschlange behalten",
+    "cancel_all_confirm": "Alle ausstehenden abbrechen",
+    "no_pending": "Keine ausstehenden Abschiedslieferungen für diesen Schalter.",
+    "none_queued": "Keine Abschiedsbriefe in der Warteschlange für diesen Schalter.",
+    "none_configured": "Noch keine Abschiedsbriefe konfiguriert."
+  },
   "theme": {
     "light": "Hell",
     "dark": "Dunkel",

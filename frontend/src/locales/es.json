@@ -334,6 +334,20 @@
       "2_weeks": "2 semanas tras activacion"
     }
   },
+  "farewell": {
+    "title": "Cartas de despedida",
+    "desc_edit": "Mensajes personales enviados después de que se active este interruptor, cada uno con su propio retraso.",
+    "desc_queue": "Las entregas pendientes pueden cancelarse después de que se active este interruptor.",
+    "add_letter": "Agregar carta",
+    "cancel_all": "Cancelar todo",
+    "cancel_all_title": "¿Cancelar todas las cartas pendientes?",
+    "cancel_all_desc": "Esto cancela todas las cartas de despedida pendientes para este interruptor activado. Las cartas ya enviadas no se modifican.",
+    "keep_queue": "Mantener cola",
+    "cancel_all_confirm": "Cancelar todas las pendientes",
+    "no_pending": "No quedan entregas de cartas de despedida pendientes para este interruptor.",
+    "none_queued": "No hay cartas de despedida en cola para este interruptor.",
+    "none_configured": "No hay cartas de despedida configuradas aún."
+  },
   "theme": {
     "light": "Claro",
     "dark": "Oscuro",

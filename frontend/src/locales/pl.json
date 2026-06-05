@@ -334,6 +334,20 @@
       "2_weeks": "2 tygodnie po wyzwoleniu"
     }
   },
+  "farewell": {
+    "title": "Listy pożegnalne",
+    "desc_edit": "Osobiste wiadomości wysyłane po wyzwoleniu przełącznika, każda z własnym opóźnieniem.",
+    "desc_queue": "Oczekujące dostawy można anulować po wyzwoleniu tego przełącznika.",
+    "add_letter": "Dodaj list",
+    "cancel_all": "Anuluj wszystko",
+    "cancel_all_title": "Anulować wszystkie oczekujące listy?",
+    "cancel_all_desc": "Anuluje to wszystkie oczekujące listy pożegnalne dla tego wyzwolonego przełącznika. Wysłane listy nie są zmieniane.",
+    "keep_queue": "Zachowaj kolejkę",
+    "cancel_all_confirm": "Anuluj wszystkie oczekujące",
+    "no_pending": "Brak oczekujących dostaw listów pożegnalnych dla tego przełącznika.",
+    "none_queued": "Brak listów pożegnalnych w kolejce dla tego przełącznika.",
+    "none_configured": "Nie skonfigurowano jeszcze żadnych listów pożegnalnych."
+  },
   "theme": {
     "light": "Jasny",
     "dark": "Ciemny",

@@ -36,9 +36,9 @@ func (h *HeartbeatHandlers) QuickHeartbeat(c *fiber.Ctx) error {
 		}
 
 		html := `<!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
-    <title>Heartbeat Confirmed - Aeterna</title>
+    <title>Présence confirmée — Un Dernier Message</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
@@ -64,9 +64,9 @@ func (h *HeartbeatHandlers) QuickHeartbeat(c *fiber.Ctx) error {
 </head>
 <body>
     <div class="container">
-        <h1>✓ Heartbeat Confirmed</h1>
-        <p>Your check-in has been recorded.</p>
-        <p class="footer">Aeterna</p>
+        <h1>✓ Présence confirmée</h1>
+        <p>Votre signal de vie a bien été enregistré.</p>
+        <p class="footer">Un Dernier Message</p>
     </div>
 </body>
 </html>
@@ -76,15 +76,15 @@ func (h *HeartbeatHandlers) QuickHeartbeat(c *fiber.Ctx) error {
 	}
 
 	html := `<!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
-    <title>Send Heartbeat - Aeterna</title>
+    <title>Signaler ma présence — Un Dernier Message</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #2dd4bf 0%, #0f766e 100%);
             color: #333;
             min-height: 100vh;
             display: flex;
@@ -115,7 +115,7 @@ func (h *HeartbeatHandlers) QuickHeartbeat(c *fiber.Ctx) error {
             line-height: 1.5;
         }
         .button {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #2dd4bf 0%, #0f766e 100%);
             color: white;
             border: none;
             padding: 1rem 2rem;
@@ -125,11 +125,11 @@ func (h *HeartbeatHandlers) QuickHeartbeat(c *fiber.Ctx) error {
             cursor: pointer;
             width: 100%;
             transition: transform 0.2s, box-shadow 0.2s;
-            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+            box-shadow: 0 4px 12px rgba(13, 148, 136, 0.4);
         }
         .button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
+            box-shadow: 0 6px 20px rgba(13, 148, 136, 0.5);
         }
         .button:active {
             transform: translateY(0);
@@ -147,21 +147,21 @@ func (h *HeartbeatHandlers) QuickHeartbeat(c *fiber.Ctx) error {
         .loading {
             display: none;
             margin-top: 1rem;
-            color: #667eea;
+            color: #0f766e;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Send Heartbeat</h1>
-        <p>Click the button below to confirm you are available and reset your dead man's switch timer.</p>
+        <h1>Signaler ma présence</h1>
+        <p>Cliquez sur le bouton ci-dessous pour confirmer que vous êtes disponible et réinitialiser votre interrupteur d'homme mort.</p>
         <form id="heartbeatForm" method="POST">
             <button type="submit" class="button" id="heartbeatButton">
-                Send Heartbeat
+                Je suis en vie
             </button>
-            <div class="loading" id="loading">Sending...</div>
+            <div class="loading" id="loading">Envoi en cours…</div>
         </form>
-        <p class="footer">Aeterna</p>
+        <p class="footer">Un Dernier Message</p>
     </div>
     <script>
         document.getElementById('heartbeatForm').addEventListener('submit', function(e) {
@@ -182,7 +182,7 @@ func (h *HeartbeatHandlers) QuickHeartbeat(c *fiber.Ctx) error {
                 if (response.ok) {
                     return response.text();
                 }
-                throw new Error('Failed to send heartbeat');
+                throw new Error('Échec de l\'envoi du signal');
             })
             .then(html => {
                 document.body.innerHTML = html;
@@ -190,7 +190,7 @@ func (h *HeartbeatHandlers) QuickHeartbeat(c *fiber.Ctx) error {
             .catch(error => {
                 button.disabled = false;
                 loading.style.display = 'none';
-                alert('Error: ' + error.message);
+                alert('Erreur : ' + error.message);
             });
         });
     </script>

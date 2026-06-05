@@ -334,6 +334,20 @@
       "2_weeks": "2 semaines après déclenchement"
     }
   },
+  "farewell": {
+    "title": "Lettres d'adieu",
+    "desc_edit": "Messages personnels envoyés après le déclenchement, chacun avec son propre délai.",
+    "desc_queue": "Les envois en attente peuvent être annulés après le déclenchement de ce switch.",
+    "add_letter": "Ajouter une lettre",
+    "cancel_all": "Tout annuler",
+    "cancel_all_title": "Annuler toutes les lettres en attente ?",
+    "cancel_all_desc": "Cela annule toutes les lettres d'adieu en attente pour ce switch déclenché. Les lettres déjà envoyées ne sont pas modifiées.",
+    "keep_queue": "Conserver la file",
+    "cancel_all_confirm": "Annuler tout ce qui est en attente",
+    "no_pending": "Aucune livraison de lettre d'adieu en attente pour ce switch.",
+    "none_queued": "Aucune lettre d'adieu en file d'attente pour ce switch.",
+    "none_configured": "Aucune lettre d'adieu configurée pour l'instant."
+  },
   "theme": {
     "light": "Clair",
     "dark": "Sombre",
