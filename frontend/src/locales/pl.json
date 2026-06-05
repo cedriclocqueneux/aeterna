@@ -87,6 +87,10 @@
       "invalid_credentials": "Nieprawidłowe dane uwierzytelniające.",
       "backend_unavailable": "Usługa backend niedostępna. Upewnij się, że backend działa.",
       "cannot_connect": "Nie można połączyć z backendem. Upewnij się, że usługa działa."
+    },
+    "newsletter": {
+      "consent": "Zgadzam się na otrzymywanie ważnych komunikatów serwisowych (awarie, konserwacja, aktualizacje).",
+      "privacy_note": "Twój e-mail nigdy nie zostanie wykorzystany do celów komercyjnych ani udostępniony osobom trzecim."
     }
   },
   "dashboard": {

@@ -87,6 +87,10 @@
       "invalid_credentials": "Credenciales inválidas.",
       "backend_unavailable": "Servicio backend no disponible. Asegúrese de que el backend esté en ejecución.",
       "cannot_connect": "No se puede conectar al backend. Asegúrese de que el servicio esté en ejecución."
+    },
+    "newsletter": {
+      "consent": "Acepto recibir comunicaciones importantes sobre el servicio (interrupciones, mantenimiento, actualizaciones).",
+      "privacy_note": "Su correo electrónico nunca se utilizará con fines comerciales ni se compartirá con terceros."
     }
   },
   "dashboard": {

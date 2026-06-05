@@ -87,6 +87,10 @@
       "invalid_credentials": "Ungültige Anmeldedaten.",
       "backend_unavailable": "Backend-Dienst nicht verfügbar. Bitte stellen Sie sicher, dass das Backend läuft.",
       "cannot_connect": "Verbindung zum Backend nicht möglich. Bitte stellen Sie sicher, dass der Dienst läuft."
+    },
+    "newsletter": {
+      "consent": "Ich stimme zu, wichtige Mitteilungen über den Dienst zu erhalten (Ausfälle, Wartung, Updates).",
+      "privacy_note": "Ihre E-Mail wird niemals für kommerzielle Zwecke verwendet oder an Dritte weitergegeben."
     }
   },
   "dashboard": {

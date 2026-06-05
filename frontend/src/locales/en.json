@@ -87,6 +87,10 @@
       "invalid_credentials": "Invalid master credentials.",
       "backend_unavailable": "Backend service is unavailable. Please ensure the backend is running and try again.",
       "cannot_connect": "Cannot connect to backend. Please ensure the backend service is running."
+    },
+    "newsletter": {
+      "consent": "I agree to receive important service communications (outages, maintenance, updates).",
+      "privacy_note": "Your email will never be used for commercial purposes or shared with third parties."
     }
   },
   "dashboard": {

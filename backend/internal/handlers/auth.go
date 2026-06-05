@@ -11,10 +11,15 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
+// brevo est initialisé une seule fois au démarrage à partir de la config.
+// Il vaut nil si BREVO_API_KEY ou BREVO_LIST_ID ne sont pas définis.
+var brevo *services.BrevoService
+
 type registerRequest struct {
-	Email      string `json:"email"`
-	Password   string `json:"password"`
-	OwnerEmail string `json:"owner_email"`
+	Email              string `json:"email"`
+	Password           string `json:"password"`
+	OwnerEmail         string `json:"owner_email"`
+	NewsletterConsent  bool   `json:"newsletter_consent"`
 }
 
 type loginRequest struct {
@@ -46,6 +51,7 @@ type AuthHandlers struct {
 }
 
 func NewAuthHandlers(auth ports.AuthServicePort, cfg config.Config) *AuthHandlers {
+	brevo = services.NewBrevoService(cfg.App.BrevoAPIKey, cfg.App.BrevoListID)
 	return &AuthHandlers{auth: auth, cfg: cfg}
 }
 
@@ -118,19 +124,26 @@ func (h *AuthHandlers) register(c *fiber.Ctx, mode sessionMode) error {
 	}
 	var recoveryKey string
 	var userID string
+	var registeredEmail string
 	if !configured {
 		rk, u, err := h.auth.RegisterFirstUser(req.Email, req.Password, req.OwnerEmail)
 		if err != nil {
 			return writeError(c, err)
 		}
-		recoveryKey, userID = rk, u.ID
+		recoveryKey, userID, registeredEmail = rk, u.ID, req.Email
 	} else {
 		rk, u, err := h.auth.RegisterAdditionalUser(req.Email, req.Password, req.OwnerEmail)
 		if err != nil {
 			return writeError(c, err)
 		}
-		recoveryKey, userID = rk, u.ID
+		recoveryKey, userID, registeredEmail = rk, u.ID, req.Email
 	}
+
+	// Ajout Brevo : uniquement si consentement explicite de l'utilisateur
+	if req.NewsletterConsent && registeredEmail != "" {
+		brevo.AddContact(registeredEmail)
+	}
+
 	return h.respondWithSession(c, userID, mode, recoveryKey)
 }
 

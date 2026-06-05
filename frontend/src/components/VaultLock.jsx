@@ -38,6 +38,10 @@ export default function VaultLock({ onUnlock }) {
     const [isRegisterMode, setIsRegisterMode] = useState(false);
     const [recoveryKeyInput, setRecoveryKeyInput] = useState('');
     const [copied, setCopied] = useState(false);
+    const [newsletterConsent, setNewsletterConsent] = useState(true);
+
+    const brevoEnabled = import.meta.env.VITE_BREVO_ENABLED === 'true';
+    const showNewsletterCheckbox = brevoEnabled && (configured === false || isRegisterMode) && !isResetMode;
 
     const passwordRules = [
         { id: 'length', label: t('vault.password_strength.rules.length'), test: (p) => p.length >= 8 },
@@ -122,7 +126,7 @@ export default function VaultLock({ onUnlock }) {
                 if (!email.trim()) { setError(t('vault.errors.email_required')); setLoading(false); return; }
                 const res = await apiRequest('/auth/register', {
                     method: 'POST',
-                    body: JSON.stringify({ email: email.trim(), password, owner_email: ownerEmail.trim() || email.trim() })
+                    body: JSON.stringify({ email: email.trim(), password, owner_email: ownerEmail.trim() || email.trim(), newsletter_consent: newsletterConsent })
                 });
                 if (res?.recovery_key) setShowRecoveryKey(res.recovery_key);
                 else onUnlock('home');
@@ -133,7 +137,7 @@ export default function VaultLock({ onUnlock }) {
                 if (!accountEmail) { setError(t('vault.errors.email_required')); setLoading(false); return; }
                 const res = await apiRequest('/setup', {
                     method: 'POST',
-                    body: JSON.stringify({ email: accountEmail, password, owner_email: ownerEmail.trim() || accountEmail })
+                    body: JSON.stringify({ email: accountEmail, password, owner_email: ownerEmail.trim() || accountEmail, newsletter_consent: newsletterConsent })
                 });
                 if (res?.recovery_key) setShowRecoveryKey(res.recovery_key);
                 else onUnlock('home');
@@ -327,6 +331,24 @@ export default function VaultLock({ onUnlock }) {
                                     </div>
                                 )}
                             </>
+                        )}
+                        {showNewsletterCheckbox && (
+                            <div className="rounded-xl border border-dark-800/90 bg-dark-950/50 p-4 space-y-2">
+                                <label className="flex items-start gap-3 cursor-pointer">
+                                    <input
+                                        type="checkbox"
+                                        checked={newsletterConsent}
+                                        onChange={(e) => setNewsletterConsent(e.target.checked)}
+                                        className="mt-0.5 h-4 w-4 shrink-0 accent-teal-500"
+                                    />
+                                    <span className="text-xs leading-relaxed text-dark-300">
+                                        {t('vault.newsletter.consent')}
+                                    </span>
+                                </label>
+                                <p className="text-[10px] leading-relaxed text-dark-600 pl-7">
+                                    {t('vault.newsletter.privacy_note')}
+                                </p>
+                            </div>
                         )}
                         {error && (
                             <div role="alert" className="rounded-xl border border-red-500/35 bg-red-500/[0.07] px-4 py-3 text-center text-sm text-red-300">

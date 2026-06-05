@@ -87,6 +87,10 @@
       "invalid_credentials": "Ongeldige inloggegevens.",
       "backend_unavailable": "Backend-service niet beschikbaar. Zorg ervoor dat de backend actief is.",
       "cannot_connect": "Kan geen verbinding maken met de backend. Zorg ervoor dat de service actief is."
+    },
+    "newsletter": {
+      "consent": "Ik ga akkoord met het ontvangen van belangrijke servicemeldingen (storingen, onderhoud, updates).",
+      "privacy_note": "Uw e-mail wordt nooit gebruikt voor commerciële doeleinden of gedeeld met derden."
     }
   },
   "dashboard": {
