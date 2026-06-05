@@ -25,6 +25,10 @@ func (s *NotifyingSettingsService) Get(userID string) (models.Settings, error) {
 	return s.base.Get(userID)
 }
 
+func (s *NotifyingSettingsService) GetEffective(userID string) (models.Settings, error) {
+	return s.base.GetEffective(userID)
+}
+
 func (s *NotifyingSettingsService) GetByHeartbeatToken(token string) (models.Settings, error) {
 	return s.base.GetByHeartbeatToken(token)
 }
