@@ -32,6 +32,8 @@ services:
       dockerfile: Dockerfile
       args:
         - VITE_API_URL=/api
+        - VITE_PLAUSIBLE_DOMAIN=${VITE_PLAUSIBLE_DOMAIN:-}
+        - VITE_PLAUSIBLE_URL=${VITE_PLAUSIBLE_URL:-}
     depends_on:
       - backend
     restart: always
