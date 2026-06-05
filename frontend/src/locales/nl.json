@@ -175,6 +175,8 @@
     "view_users": "Gebruikers bekijken",
     "smtp_title": "SMTP-configuratie",
     "smtp_desc": "Configureer uw e-mailserver voor het verzenden van geactiveerde berichten",
+    "smtp_desc_secondary": "Optionele configuratie. De e-mailserver van de beheerder wordt standaard gebruikt.",
+    "smtp_shared_notice": "De e-mailserver van de beheerder wordt gebruikt om uw berichten te verzenden. U kunt hieronder uw eigen SMTP-server configureren — die heeft dan prioriteit.",
     "smtp_host": "SMTP-host",
     "smtp_port": "SMTP-poort",
     "smtp_user": "Gebruikersnaam / E-mail",

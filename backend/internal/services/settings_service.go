@@ -46,6 +46,42 @@ func (s SettingsService) Get(userID string) (models.Settings, error) {
 	return settings, nil
 }
 
+// GetPrimary returns the settings of the first-created (primary/admin) user.
+// Returns empty settings (no error) if the primary user has no settings yet.
+func (s SettingsService) GetPrimary() (models.Settings, error) {
+	var firstUser models.User
+	if err := database.DB.Order("created_at ASC, id ASC").First(&firstUser).Error; err != nil {
+		return models.Settings{}, nil
+	}
+	return s.Get(firstUser.ID)
+}
+
+// GetEffective returns the settings to use for sending emails on behalf of userID.
+// If the user has no SMTP configured, the primary user's SMTP settings are used as fallback,
+// while preserving the user's own OwnerEmail and Language preferences.
+func (s SettingsService) GetEffective(userID string) (models.Settings, error) {
+	settings, err := s.Get(userID)
+	if err != nil {
+		return settings, err
+	}
+	if settings.SMTPHost != "" {
+		return settings, nil
+	}
+	// SMTP not configured — fall back to primary user's SMTP
+	primary, err := s.GetPrimary()
+	if err != nil || primary.SMTPHost == "" {
+		return settings, nil
+	}
+	// Use primary's SMTP credentials, but keep user's own OwnerEmail and Language
+	settings.SMTPHost = primary.SMTPHost
+	settings.SMTPPort = primary.SMTPPort
+	settings.SMTPUser = primary.SMTPUser
+	settings.SMTPPass = primary.SMTPPass
+	settings.SMTPFrom = primary.SMTPFrom
+	settings.SMTPFromName = primary.SMTPFromName
+	return settings, nil
+}
+
 // GetByHeartbeatToken resolves settings for the quick-heartbeat public link.
 func (s SettingsService) GetByHeartbeatToken(token string) (models.Settings, error) {
 	var settings models.Settings

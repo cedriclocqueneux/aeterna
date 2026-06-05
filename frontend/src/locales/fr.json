@@ -175,6 +175,8 @@
     "view_users": "Voir les utilisateurs",
     "smtp_title": "Configuration SMTP",
     "smtp_desc": "Configurez votre serveur email pour l'envoi des messages déclenchés",
+    "smtp_desc_secondary": "Configuration optionnelle. Le serveur email de l'administrateur est utilisé par défaut.",
+    "smtp_shared_notice": "Le serveur email de l'administrateur sera utilisé pour envoyer vos messages. Vous pouvez configurer votre propre serveur SMTP ci-dessous si vous le souhaitez — il aura alors la priorité.",
     "smtp_host": "Serveur SMTP",
     "smtp_port": "Port SMTP",
     "smtp_user": "Nom d'utilisateur / Email",

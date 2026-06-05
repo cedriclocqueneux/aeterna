@@ -68,6 +68,9 @@ type FarewellDerivationPort interface {
 // SettingsServicePort covers per-user SMTP and heartbeat token configuration.
 type SettingsServicePort interface {
 	Get(userID string) (models.Settings, error)
+	// GetEffective returns the settings to use for sending emails: the user's own settings
+	// if SMTP is configured, otherwise falls back to the primary admin's SMTP.
+	GetEffective(userID string) (models.Settings, error)
 	GetByHeartbeatToken(token string) (models.Settings, error)
 	Save(userID string, req models.Settings) error
 	TestSMTP(req models.Settings) error

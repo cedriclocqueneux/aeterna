@@ -175,6 +175,8 @@
     "view_users": "View users",
     "smtp_title": "SMTP Configuration",
     "smtp_desc": "Configure your email server for sending triggered messages",
+    "smtp_desc_secondary": "Optional configuration. The administrator's email server is used by default.",
+    "smtp_shared_notice": "The administrator's email server will be used to send your messages. You can configure your own SMTP server below if you prefer — it will then take priority.",
     "smtp_host": "SMTP Host",
     "smtp_port": "SMTP Port",
     "smtp_user": "Username / Email",

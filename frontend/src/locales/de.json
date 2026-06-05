@@ -175,6 +175,8 @@
     "view_users": "Benutzer anzeigen",
     "smtp_title": "SMTP-Konfiguration",
     "smtp_desc": "Konfigurieren Sie Ihren E-Mail-Server zum Senden ausgelöster Nachrichten",
+    "smtp_desc_secondary": "Optionale Konfiguration. Der E-Mail-Server des Administrators wird standardmäßig verwendet.",
+    "smtp_shared_notice": "Der E-Mail-Server des Administrators wird zum Senden Ihrer Nachrichten verwendet. Sie können unten Ihren eigenen SMTP-Server konfigurieren — dieser hat dann Vorrang.",
     "smtp_host": "SMTP-Host",
     "smtp_port": "SMTP-Port",
     "smtp_user": "Benutzername / E-Mail",

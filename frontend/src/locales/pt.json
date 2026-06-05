@@ -175,6 +175,8 @@
     "view_users": "Ver usuários",
     "smtp_title": "Configuração SMTP",
     "smtp_desc": "Configure seu servidor de e-mail para enviar mensagens acionadas",
+    "smtp_desc_secondary": "Configuração opcional. O servidor de e-mail do administrador é usado por padrão.",
+    "smtp_shared_notice": "O servidor de e-mail do administrador será usado para enviar suas mensagens. Você pode configurar seu próprio servidor SMTP abaixo — ele terá prioridade.",
     "smtp_host": "Host SMTP",
     "smtp_port": "Porta SMTP",
     "smtp_user": "Usuário / E-mail",

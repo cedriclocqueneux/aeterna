@@ -7,11 +7,13 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
+
 // settingsResponse embeds tenant settings and adds global registration flags.
 type settingsResponse struct {
 	models.Settings
 	AllowRegistration     bool `json:"allow_registration"`
 	CanManageRegistration bool `json:"can_manage_registration"`
+	IsPrimary             bool `json:"is_primary"`
 }
 
 // SettingsHandlers groups SMTP settings and application configuration handlers.
@@ -41,6 +43,7 @@ func (h *SettingsHandlers) Get(c *fiber.Ctx) error {
 		Settings:              settings,
 		AllowRegistration:     app.AllowRegistration,
 		CanManageRegistration: h.appSettings.CanManageRegistration(userID),
+		IsPrimary:             services.IsFirstUser(userID),
 	})
 }
 

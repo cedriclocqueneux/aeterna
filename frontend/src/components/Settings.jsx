@@ -21,7 +21,7 @@ const SMTP_GUIDES = [
 
 export default function Settings() {
     const { t } = useTranslation();
-    const [config, setConfig] = useState({ smtp_host: 'smtp.gmail.com', smtp_port: '587', smtp_user: '', smtp_pass: '', smtp_from: '', smtp_from_name: 'Aeterna', owner_email: '', allow_registration: false, can_manage_registration: false });
+    const [config, setConfig] = useState({ smtp_host: 'smtp.gmail.com', smtp_port: '587', smtp_user: '', smtp_pass: '', smtp_from: '', smtp_from_name: 'Aeterna', owner_email: '', allow_registration: false, can_manage_registration: false, is_primary: false });
     const [configLoading, setConfigLoading] = useState(true);
     const [loading, setLoading] = useState(false);
     const [testLoading, setTestLoading] = useState(false);
@@ -318,9 +318,17 @@ export default function Settings() {
                     <CardTitle className="flex items-center gap-2 text-base font-medium">
                         <Mail className="w-4 h-4 text-teal-400" />{t('settings.smtp_title')}
                     </CardTitle>
-                    <CardDescription className="text-dark-400">{t('settings.smtp_desc')}</CardDescription>
+                    <CardDescription className="text-dark-400">
+                        {config.is_primary ? t('settings.smtp_desc') : t('settings.smtp_desc_secondary')}
+                    </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
+                    {!config.is_primary && (
+                        <div className="flex items-start gap-3 rounded-xl border border-teal-500/20 bg-teal-500/5 px-4 py-3">
+                            <CheckCircle className="w-4 h-4 text-teal-400 shrink-0 mt-0.5" />
+                            <p className="text-xs leading-relaxed text-teal-200">{t('settings.smtp_shared_notice')}</p>
+                        </div>
+                    )}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div className="space-y-2">
                             <label className="text-xs font-medium text-dark-400 flex items-center gap-2"><Server className="w-3 h-3" /> {t('settings.smtp_host')}</label>

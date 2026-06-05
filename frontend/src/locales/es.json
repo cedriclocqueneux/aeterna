@@ -175,6 +175,8 @@
     "view_users": "Ver usuarios",
     "smtp_title": "Configuración SMTP",
     "smtp_desc": "Configure su servidor de correo para enviar mensajes activados",
+    "smtp_desc_secondary": "Configuración opcional. El servidor de correo del administrador se usa de forma predeterminada.",
+    "smtp_shared_notice": "El servidor de correo del administrador se usará para enviar sus mensajes. Puede configurar su propio servidor SMTP a continuación si lo prefiere — tendrá prioridad.",
     "smtp_host": "Host SMTP",
     "smtp_port": "Puerto SMTP",
     "smtp_user": "Usuario / Correo",

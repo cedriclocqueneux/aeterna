@@ -175,6 +175,8 @@
     "view_users": "Visualizza utenti",
     "smtp_title": "Configurazione SMTP",
     "smtp_desc": "Configura il tuo server e-mail per l'invio di messaggi attivati",
+    "smtp_desc_secondary": "Configurazione opzionale. Il server email dell'amministratore viene utilizzato per impostazione predefinita.",
+    "smtp_shared_notice": "Il server email dell'amministratore verrà utilizzato per inviare i tuoi messaggi. Puoi configurare il tuo server SMTP qui sotto se preferisci — avrà la priorità.",
     "smtp_host": "Host SMTP",
     "smtp_port": "Porta SMTP",
     "smtp_user": "Utente / E-mail",

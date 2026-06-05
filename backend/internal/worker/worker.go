@@ -92,7 +92,7 @@ func (w *Worker) checkReminders() {
 		if msg.UserID == "" {
 			continue
 		}
-		settings, err := w.settings.Get(msg.UserID)
+		settings, err := w.settings.GetEffective(msg.UserID)
 		if err != nil || settings.OwnerEmail == "" || settings.SMTPHost == "" {
 			continue
 		}
@@ -156,7 +156,7 @@ func (w *Worker) checkHeartbeats() {
 func (w *Worker) triggerSwitch(msg models.Message) {
 	slog.Warn("Switch triggered", "recipient", formatRecipients(msg.RecipientEmail), "id", msg.ID)
 
-	settings, err := w.settings.Get(msg.UserID)
+	settings, err := w.settings.GetEffective(msg.UserID)
 	if err != nil {
 		slog.Error("Failed to load SMTP settings", "error", err, "user_id", msg.UserID)
 		settings = models.Settings{}
@@ -272,7 +272,7 @@ func (w *Worker) checkFarewellLetters() {
 }
 
 func (w *Worker) sendFarewellLetter(letter models.FarewellLetter) {
-	settings, err := w.settings.Get(letter.UserID)
+	settings, err := w.settings.GetEffective(letter.UserID)
 	if err != nil || settings.SMTPHost == "" {
 		slog.Error("SMTP not configured for farewell letter", "letter_id", letter.ID, "user_id", letter.UserID)
 		return

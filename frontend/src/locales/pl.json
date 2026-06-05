@@ -175,6 +175,8 @@
     "view_users": "Zobacz użytkowników",
     "smtp_title": "Konfiguracja SMTP",
     "smtp_desc": "Skonfiguruj swój serwer e-mail do wysyłania wyzwolonych wiadomości",
+    "smtp_desc_secondary": "Opcjonalna konfiguracja. Serwer e-mail administratora jest używany domyślnie.",
+    "smtp_shared_notice": "Serwer e-mail administratora będzie używany do wysyłania Twoich wiadomości. Możesz skonfigurować własny serwer SMTP poniżej — będzie miał pierwszeństwo.",
     "smtp_host": "Host SMTP",
     "smtp_port": "Port SMTP",
     "smtp_user": "Nazwa użytkownika / E-mail",
